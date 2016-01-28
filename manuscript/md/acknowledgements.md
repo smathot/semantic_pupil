@@ -1,0 +1,1 @@
+The research leading to these results has received funding from: the People Programme (Marie Curie Actions) of the European Union’s Seventh Framework Programme (FP7/2007-2013) under REA grant agreement n° 622738 awarded to Sebastiaan Mathôt; and TODO awarded to Kristof Strijkers.
