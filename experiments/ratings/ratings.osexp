@@ -1,0 +1,491 @@
+---
+API: 2
+OpenSesame: 3.0.0a17
+Platform: posix
+---
+set width 1280
+set uniform_coordinates "no"
+set title "P0005.2 semantic pupil normative ratings"
+set synth_backend "droid"
+set subject_parity "even"
+set subject_nr 0
+set start "experiment"
+set sampler_backend "legacy"
+set mouse_backend "droid"
+set keyboard_backend "droid"
+set height 800
+set foreground "white"
+set font_size 36
+set font_italic "no"
+set font_family "sans"
+set font_bold "no"
+set description "A template containing a practice and an experimental phase"
+set coordinates "relative"
+set compensation 0
+set color_backend "legacy"
+set clock_backend "legacy"
+set canvas_backend "droid"
+set bidi "no"
+set background "#777777"
+
+define sketchpad blank
+	set reset_variables "no"
+	set duration 100
+	set description "Displays stimuli"
+
+define loop block_loop
+	set skip 0
+	set repeat 1
+	set order "random"
+	set offset "no"
+	set item "trial_sequence"
+	set description "A single block of trials"
+	set cycles 103
+	set column_order "word;type"
+	set break_if "never"
+	setcycle 0 word "lumière"
+	setcycle 0 type "light"
+	setcycle 1 word "lumineux"
+	setcycle 1 type "light"
+	setcycle 2 word "luminosité"
+	setcycle 2 type "light"
+	setcycle 3 word "éclatant"
+	setcycle 3 type "light"
+	setcycle 4 word "éclairé"
+	setcycle 4 type "light"
+	setcycle 5 word "éclaircie"
+	setcycle 5 type "light"
+	setcycle 6 word "éclairer"
+	setcycle 6 type "light"
+	setcycle 7 word "éclaircissement"
+	setcycle 7 type "light"
+	setcycle 8 word "brillant"
+	setcycle 8 type "light"
+	setcycle 9 word "brillance"
+	setcycle 9 type "light"
+	setcycle 10 word "briller"
+	setcycle 10 type "light"
+	setcycle 11 word "illuminé"
+	setcycle 11 type "light"
+	setcycle 12 word "illuminer"
+	setcycle 12 type "light"
+	setcycle 13 word "illumination"
+	setcycle 13 type "light"
+	setcycle 14 word "illuminant"
+	setcycle 14 type "light"
+	setcycle 15 word "scintillant"
+	setcycle 15 type "light"
+	setcycle 16 word "scintillement"
+	setcycle 16 type "light"
+	setcycle 17 word "scintiller"
+	setcycle 17 type "light"
+	setcycle 18 word "blanc"
+	setcycle 18 type "light"
+	setcycle 19 word "blanchi"
+	setcycle 19 type "light"
+	setcycle 20 word "blanchir"
+	setcycle 20 type "light"
+	setcycle 21 word "blanchiment"
+	setcycle 21 type "light"
+	setcycle 22 word "blanchissement"
+	setcycle 22 type "light"
+	setcycle 23 word "jour"
+	setcycle 23 type "light"
+	setcycle 24 word "luisant"
+	setcycle 24 type "light"
+	setcycle 25 word "luire"
+	setcycle 25 type "light"
+	setcycle 26 word "ensoleillé"
+	setcycle 26 type "light"
+	setcycle 27 word "ensoleiller"
+	setcycle 27 type "light"
+	setcycle 28 word "ébloui"
+	setcycle 28 type "light"
+	setcycle 29 word "éblouissant"
+	setcycle 29 type "light"
+	setcycle 30 word "éblouir"
+	setcycle 30 type "light"
+	setcycle 31 word "étincelant"
+	setcycle 31 type "light"
+	setcycle 32 word "étinceler"
+	setcycle 32 type "light"
+	setcycle 33 word "ténèbres"
+	setcycle 33 type "dark"
+	setcycle 34 word "ténébreux"
+	setcycle 34 type "dark"
+	setcycle 35 word "térébrant"
+	setcycle 35 type "dark"
+	setcycle 36 word "pénombre"
+	setcycle 36 type "dark"
+	setcycle 37 word "sombre"
+	setcycle 37 type "dark"
+	setcycle 38 word "assombrir"
+	setcycle 38 type "dark"
+	setcycle 39 word "assombrissement"
+	setcycle 39 type "dark"
+	setcycle 40 word "noir"
+	setcycle 40 type "dark"
+	setcycle 41 word "noirceur"
+	setcycle 41 type "dark"
+	setcycle 42 word "noirci"
+	setcycle 42 type "dark"
+	setcycle 43 word "noircir"
+	setcycle 43 type "dark"
+	setcycle 44 word "nuit"
+	setcycle 44 type "dark"
+	setcycle 45 word "obscur"
+	setcycle 45 type "dark"
+	setcycle 46 word "obscurcissement"
+	setcycle 46 type "dark"
+	setcycle 47 word "obscurité"
+	setcycle 47 type "dark"
+	setcycle 48 word "obscurcir"
+	setcycle 48 type "dark"
+	setcycle 49 word "ombre"
+	setcycle 49 type "dark"
+	setcycle 50 word "ombragé"
+	setcycle 50 type "dark"
+	setcycle 51 word "ombrager"
+	setcycle 51 type "dark"
+	setcycle 52 word "ombrage"
+	setcycle 52 type "dark"
+	setcycle 53 word "ombrant"
+	setcycle 53 type "dark"
+	setcycle 54 word "foncé"
+	setcycle 54 type "dark"
+	setcycle 55 word "pénombre"
+	setcycle 55 type "dark"
+	setcycle 56 word "opacité"
+	setcycle 56 type "dark"
+	setcycle 57 word "opaque"
+	setcycle 57 type "dark"
+	setcycle 58 word "opacifier"
+	setcycle 58 type "dark"
+	setcycle 59 word "terne"
+	setcycle 59 type "dark"
+	setcycle 60 word "terni"
+	setcycle 60 type "dark"
+	setcycle 61 word "ternir"
+	setcycle 61 type "dark"
+	setcycle 62 word "enténébrer"
+	setcycle 62 type "dark"
+	setcycle 63 word "brumeux"
+	setcycle 63 type "dark"
+	setcycle 64 word "trouble"
+	setcycle 64 type "dark"
+	setcycle 65 word "insalubre"
+	setcycle 65 type "dark"
+	setcycle 66 word "nuageux"
+	setcycle 66 type "dark"
+	setcycle 67 word "ennuager"
+	setcycle 67 type "dark"
+	setcycle 68 word "abandonner"
+	setcycle 68 type "ctrl"
+	setcycle 69 word "abstenir"
+	setcycle 69 type "ctrl"
+	setcycle 70 word "fracasser"
+	setcycle 70 type "ctrl"
+	setcycle 71 word "justifier"
+	setcycle 71 type "ctrl"
+	setcycle 72 word "permettre"
+	setcycle 72 type "ctrl"
+	setcycle 73 word "renforcer"
+	setcycle 73 type "ctrl"
+	setcycle 74 word "décider"
+	setcycle 74 type "ctrl"
+	setcycle 75 word "cacher"
+	setcycle 75 type "ctrl"
+	setcycle 76 word "assistant"
+	setcycle 76 type "ctrl"
+	setcycle 77 word "auberge"
+	setcycle 77 type "ctrl"
+	setcycle 78 word "conséquence"
+	setcycle 78 type "ctrl"
+	setcycle 79 word "dessin"
+	setcycle 79 type "ctrl"
+	setcycle 80 word "nourriture"
+	setcycle 80 type "ctrl"
+	setcycle 81 word "mère"
+	setcycle 81 type "ctrl"
+	setcycle 82 word "personnel"
+	setcycle 82 type "ctrl"
+	setcycle 83 word "peuple"
+	setcycle 83 type "ctrl"
+	setcycle 84 word "photographe"
+	setcycle 84 type "ctrl"
+	setcycle 85 word "satisfaction"
+	setcycle 85 type "ctrl"
+	setcycle 86 word "témoin"
+	setcycle 86 type "ctrl"
+	setcycle 87 word "sésame"
+	setcycle 87 type "ctrl"
+	setcycle 88 word "absent"
+	setcycle 88 type "ctrl"
+	setcycle 89 word "artistique"
+	setcycle 89 type "ctrl"
+	setcycle 90 word "blond"
+	setcycle 90 type "ctrl"
+	setcycle 91 word "brève"
+	setcycle 91 type "ctrl"
+	setcycle 92 word "charmant"
+	setcycle 92 type "ctrl"
+	setcycle 93 word "contraire"
+	setcycle 93 type "ctrl"
+	setcycle 94 word "familier"
+	setcycle 94 type "ctrl"
+	setcycle 95 word "généreux"
+	setcycle 95 type "ctrl"
+	setcycle 96 word "honnête"
+	setcycle 96 type "ctrl"
+	setcycle 97 word "mondial"
+	setcycle 97 type "ctrl"
+	setcycle 98 word "simulé"
+	setcycle 98 type "ctrl"
+	setcycle 99 word "opposé"
+	setcycle 99 type "ctrl"
+	setcycle 100 word "paisible"
+	setcycle 100 type "ctrl"
+	setcycle 101 word "scandaleux"
+	setcycle 101 type "ctrl"
+	setcycle 102 word "sentimental"
+	setcycle 102 type "ctrl"
+	run trial_sequence
+
+define loop counterbalance_loop
+	set skip 0
+	set repeat 1
+	set order "random"
+	set offset "no"
+	set item "counterbalance_sequence"
+	set description "Repeatedly runs another item"
+	set cycles 2
+	set column_order "rating_type"
+	set break_if "never"
+	setcycle 0 rating_type "[rating_type_1]"
+	setcycle 1 rating_type "[rating_type_2]"
+	run counterbalance_sequence
+
+define inline_script counterbalance_script
+	set description "Executes Python code"
+	set _run ""
+	___prepare__
+	if var.subject_parity == 'odd':
+		var.rating_type_1 = 'emotion'
+		var.rating_type_2 = 'brightness'
+	else:
+		var.rating_type_1 = 'brightness'
+		var.rating_type_2 = 'emotion'
+	__end__
+
+define sequence counterbalance_sequence
+	set flush_keyboard "yes"
+	set description "Runs a number of items in sequence"
+	run form_instructions_emotion "[rating_type] = emotion"
+	run form_instructions_brightness "[rating_type] = brightness"
+	run blank "always"
+	run block_loop "always"
+	run blank "always"
+
+define sequence experiment
+	set flush_keyboard "yes"
+	set description "The main sequence of the experiment"
+	run counterbalance_script "always"
+	run form_instructions "always"
+	run blank "always"
+	run form_instructions_2 "always"
+	run blank "always"
+	run form_instructions_3 "always"
+	run blank "always"
+	run counterbalance_loop "always"
+	run form_text_display "always"
+
+define form_text_display form_instructions
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Je comprends"
+	set margins "50;50;50;50"
+	set form_title "Instructions"
+	__form_text__
+	Dans cette expérience, vous verrez des mots. Pour chaque mot, indiquez :
+	
+	- Si le mot vous donne un sentiment de <b>luminosité</b> ou <b>d'obscurité</b>
+	- Si le mot vous évoque une émotion <b>négative</b> ou <b>positive</b>
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display form_instructions_2
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Je comprends"
+	set margins "50;50;50;50"
+	set form_title "Exemples"
+	__form_text__
+	- Le mot <b>"soleil"</b> est :
+	   - Trés lumineux
+	   - Positif
+	   
+	- Le mot <b>"fourchette"</b> est :
+	   - Ni lumineux, ni foncé, donc la luminosité de ce mot est neutre
+	   - Ni positif, ni negatif, donc l'émotionalité de ce mot est neutre
+	   
+	- Le mot <b>"mort"</b> est :
+	   - Ni lumineux, ni foncé, donc la luminosité de ce mot est neutre
+	   - Trés négatif
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display form_instructions_3
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Commençons !"
+	set margins "50;50;50;50"
+	set form_title "Instructions"
+	__form_text__
+	Nous nous interessons à votre impression subjective, donc il n'y a pas des réponses correctes ou fausses.
+	
+	Il y a 103 mots.
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display form_instructions_brightness
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Je comprends"
+	set margins "50;50;50;50"
+	set form_title "Instructions"
+	__form_text__
+	Dans les questions suivantes, vous indiquez si le mot vous donne un sentiment de <b>luminosité</b> ou <b>d'obscurité</b> :
+	
+	- Très lumineux
+	- Lumineux
+	- Neutre
+	- Foncé
+	- Très foncé
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display form_instructions_emotion
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Je comprends"
+	set margins "50;50;50;50"
+	set form_title "Instructions"
+	__form_text__
+	Dans les questions suivantes, vous indiquez si le mot vous évoque une émotion :
+	
+	- Trés negative
+	- Négative
+	- Neutre
+	- Positive
+	- Trés positive
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_base form_rating_brightness
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;1"
+	set only_render "no"
+	set margins "50;150;50;150"
+	set description "A generic form plug-in"
+	set cols 1
+	set _theme "gray_large"
+	widget 0 0 1 1 image path="[word].png"
+	widget 0 1 1 1 rating_scale click_accepts=yes nodes="Très lumineux;Lumineux;Neutre;Foncé;Très foncé" var=rating
+
+
+define form_base form_rating_emotion
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;1"
+	set only_render "no"
+	set margins "50;150;50;150"
+	set description "A generic form plug-in"
+	set cols 1
+	set _theme "gray_large"
+	widget 0 0 1 1 image path="[word].png"
+	widget 0 1 1 1 rating_scale click_accepts=yes nodes="Très négatif;Négatif;Neutre;Positif;Très positif" var=rating
+
+
+define form_text_display form_text_display
+	set timeout "infinite"
+	set spacing 10
+	set rows "1;4;1"
+	set only_render "no"
+	set ok_text "Ok"
+	set margins "50;50;50;50"
+	set form_title "Fini !"
+	__form_text__
+	L'expérience est finie. Merci de votre participation.
+	
+	Donnez la tablette à l'expérimentateur.
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme "gray"
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define logger logger
+	set use_quotes "yes"
+	set ignore_missing "yes"
+	set description "Logs experimental data"
+	set auto_log "no"
+	log word
+	log type
+	log count_trial_sequence
+	log rating
+	log rating_type
+	log subject_nr
+	log subject_parity
+
+define sequence trial_sequence
+	set flush_keyboard "yes"
+	set description "A single trial"
+	run form_rating_brightness "[rating_type] = brightness"
+	run form_rating_emotion "[rating_type] = emotion"
+	run blank "always"
+	run logger "always"
+
