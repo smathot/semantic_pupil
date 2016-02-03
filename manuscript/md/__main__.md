@@ -1,5 +1,5 @@
 ---
-title: "Pupil size reflects semantic brightness of words"
+title: "Pupillary responses to words that convey a sense of brightness or darkness"
 author:
   Sebastiaan Mathôt^1^\*, Jonathan grainger^1^, Kristof Strijkers^2^
 affiliation:
