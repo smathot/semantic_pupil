@@ -19,28 +19,40 @@ along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 
 from datamatrix import io, IntColumn, FloatColumn, cached
 from datamatrix import operations as ops
+from datamatrix import series
+import numpy as np
+
 
 @cached
 def filter_(dm):
 
 	# Keep only relevant columns to speed up processing
 	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target',
-		'ptrace_fixation', 'subject_nr', 'response_time', 'correct'])
+		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
+		'correct_keyboard_response'])
+	dm.rename('response_time_keyboard_response', 'rt')
+	dm.rename('correct_keyboard_response', 'correct')
 	# Remove practice trials, and the misspelled word
 	print('Filtering')
 	dm = dm.trialid >= 10
 	dm = dm.word != 'trbrant'
+	# Show all words and trialcounts
+	for word in dm.word.unique:
+		print('%s\t%d' % (word, len(dm.word == word)))
 	# First show error information, and then remove error trials
 	errors = len(dm.correct == 0)
 	error_percent = 100. * errors / len(dm)
-	print('Errors(Total) = %d (%.2f %%) of %d' \
-		% (errors, error_percent, len(dm)))
+	n_word = len(dm.word.unique)
+	print('N(word) = %d Errors(Total) = %d (%.2f %%) of %d' \
+		% (n_word, errors, error_percent, len(dm)))
 	for type_ in ('light', 'dark', 'ctrl', 'animal'):
-		total = len(dm.type == type_)
-		errors = len((dm.type == type_) & (dm.correct == 0))
+		dm_ = dm.type == type_
+		total = len(dm_)
+		errors = len((dm_) & (dm.correct == 0))
 		error_percent = 100. * errors / total
-		print('Errors(%s) = %d (%.2f %%) of %d' \
-			% (type_, errors, error_percent, total))
+		n_word = len(dm_.word.unique)
+		print('N(word) = %d, Errors(%s) = %d (%.2f %%) of %d' \
+			% (n_word, type_, errors, error_percent, total))
 	dm = dm.correct == 1
 	# Add new columns
 	print('Adding columns')
@@ -71,6 +83,10 @@ def filter_(dm):
 
 def descriptives(dm):
 
-	pm = collapse(dm.response_time_keyboard_response,
-		by=[dm.type, dm.subject_nr])
-	print(pm)
+	ops.keep_only(dm, cols=['type', 'rt'])
+	gm = ops.group(dm, by=[dm.type])
+	gm.mean_rt = series.reduce_(gm.rt)
+	gm.se_rt = series.reduce_(gm.rt, lambda x: np.nanstd(x)/np.sqrt(len(x)))
+	gm.n = series.reduce_(gm.rt, lambda x: np.sum(~np.isnan(x)))
+	del gm.rt
+	print(gm)

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-from datamatrix import cached, DataMatrix, io, operations, series
+from datamatrix import cached, DataMatrix, io, operations, series, FloatColumn
 from datamatrix.colors.tango import *
 from datamatrix import plot
 from matplotlib import pyplot as plt
@@ -39,6 +39,12 @@ def size(dm, start=0, end=None):
 	return series.reduce_(series.window(dm.pupil, start=start, end=end)).mean
 
 
+def size_se(dm, start=0, end=None):
+
+	s = series.reduce_(series.window(dm.pupil, start=start, end=end))
+	return s.mean, s.std / len(s)**.5
+
+
 def effect(dm, start=0, end=None):
 
 	dm_bright = dm.type == 'light'
@@ -46,6 +52,17 @@ def effect(dm, start=0, end=None):
 	bright = series.reduce_(series.window(dm_bright.pupil, start=start, end=end))
 	dark = series.reduce_(series.window(dm_dark.pupil, start=start, end=end))
 	return dark.mean - bright.mean
+
+
+def effect_se(dm, start=0, end=None):
+
+	dm_bright = dm.type == 'light'
+	dm_dark = dm.type == 'dark'
+	bright = series.reduce_(series.window(dm_bright.pupil, start=start, end=end))
+	dark = series.reduce_(series.window(dm_dark.pupil, start=start, end=end))
+	diff = dark.mean - bright.mean
+	se = ( (bright.std**2 / len(bright)) + (dark.std**2 / len(dark)) )**.5
+	return diff, se
 
 
 def brightness_plot(dm, subplot=False):
@@ -75,25 +92,32 @@ def subject_diff_traces(dm):
 	plot.save('subject_diff_trace')
 
 
-def subject_diff_summary(dm):
+def subject_summary(dm):
 
-	plot.new()
-	x = np.arange(dm.pupil.depth)
+	x = np.arange(len(dm.subject_nr.unique))
 	sm = DataMatrix(length=len(dm.subject_nr.unique))
 	sm.subject_nr = 0
-	sm.effect_win = 0
-	sm.effect_full = 0
+	sm.effect_win = FloatColumn
+	sm.effect_win_se = FloatColumn
+	sm.effect_full = FloatColumn
+	sm.effect_full_se = FloatColumn
 	for i, s in enumerate(dm.subject_nr.unique):
 		_dm = dm.subject_nr == s
 		sm.subject_nr[i] = s
-		sm.effect_win[i] = effect(_dm, 1500, 2000)
-		sm.effect_full[i] = effect(_dm)
+		sm.effect_win[i], sm.effect_win_se[i] = effect_se(_dm, 1500, 2000)
+		sm.effect_full[i], sm.effect_full_se[i] = effect_se(_dm)
 	sm = operations.sort(sm, by=sm.effect_win)
+	plot.new(size=(4,3))
 	plt.axhline(0, color='black')
-	plt.plot(sm.effect_win, 'o-', color=blue[1])
-	plt.plot(sm.effect_full, 'o-', color=green[1])
-	plot.save('subject_diff_summary')
-	io.writetxt(sm, 'output/subject_diff_summary.csv')
+	plt.plot(sm.effect_win, 'o-', color=green[-1])
+	plt.errorbar(x, sm.effect_win, yerr=sm.effect_win_se, linestyle='',
+		color=green[-1], capsize=0)
+	plt.xlim(-1, 30)
+	plt.ylabel('Pupil-size difference (normalized)')
+	plt.xlabel('Participant')
+	plt.xticks([])
+	plot.save('subject_summary')
+	io.writetxt(sm, 'output/subject_summary.csv')
 
 
 def word_summary(dm):
@@ -103,28 +127,33 @@ def word_summary(dm):
 	sm = DataMatrix(length=len(dm.word.unique))
 	sm.word = 0
 	sm.type = 0
-	sm.pupil_win = 0
-	sm.pupil_full = 0
+	sm.pupil_win = FloatColumn
+	sm.pupil_win_se = FloatColumn
+	sm.pupil_full = FloatColumn
+	sm.pupil_full_se = FloatColumn
 	for i, w in enumerate(dm.word.unique):
 		_dm = dm.word == w
 		sm.word[i] = w
 		sm.type[i] = (dm.word == w).type[0]
-		sm.pupil_win[i] = size(_dm, 1500, 2000)
-		sm.pupil_full[i] = size(_dm)
+		sm.pupil_win[i], sm.pupil_win_se[i] = size_se(_dm, 1500, 2000)
+		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)
 	sm = operations.sort(sm, sm.pupil_win)
-	plot.new()
-	plt.axhline(0, color='black')
-	for i, row in enumerate(sm):
-		x = i-.4
-		if row.type == 'light':
-			color = orange[1]
-		else:
-			color = blue[1]
-		plt.bar(x, row.pupil_win, color=color)
-		plt.plot(x, row.pupil_full, '.', color='black')
-		print(row.type, row.pupil_win)
-	plt.xticks(range(len(sm)), sm.word, rotation=90)
-	plt.ylim(.8, 1.1)
-	plt.xlim(-1, len(sm))
-	plot.save('word_summary')
 	io.writetxt(sm, 'output/word_summary.csv')
+
+	plot.new(size=(4,3))
+	dx = 0
+	for color, type_ in ((orange[1], 'light'), (blue[1],'dark')):
+		sm_ = sm.type == type_
+		x = np.arange(len(sm_))
+		plt.plot(sm_.pupil_win, 'o-', color=color)
+		if type_ == 'dark':
+			yerr = (np.zeros(len(sm_)), sm_.pupil_win_se)
+		else:
+			yerr = (sm_.pupil_win_se, np.zeros(len(sm_)))
+		plt.errorbar(x, sm_.pupil_win, yerr=yerr, linestyle='', color=color,
+			capsize=0)
+	plt.xlim(-1, 33)
+	plt.ylabel('Pupil size (normalized)')
+	plt.xlabel('Word')
+	plt.xticks([])
+	plot.save('word_summary')

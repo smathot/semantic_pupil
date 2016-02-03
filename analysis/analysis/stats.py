@@ -30,13 +30,7 @@ def annotated_plot(dm):
 
 	plot.new(size=(8,6))
 	lm = trace_lmer_simple(dm)
-
-	threshold = series.threshold(lm.p,
-		lambda p: p > 0 and p<.05, min_length=200)
-	print(threshold)
-	plot.threshold(threshold[1], linewidth=1)
-	plt.show()
-	quit()
+	plt.axvline(792, color='black', linestyle=':')
 	x = np.arange(3000)
 	for color, a in [('black', .05), ('orange', .01), ('red',.005)]:
 		threshold = series.threshold(lm.p,
