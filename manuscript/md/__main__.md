@@ -1,5 +1,5 @@
 ---
-title: "Pupillary responses to words that convey a sense of brightness or darkness"
+title: "Embodiment as preparation: Pupillary responses to words that convey a sense of brightness or darkness"
 author:
   Sebastiaan Mathôt^1^\*, Jonathan grainger^1^, Kristof Strijkers^2^
 affiliation:
@@ -31,7 +31,7 @@ France
 
 %-- include: "md/abstract.md" --%
 
-*Keywords: pupillometry, language, embodied cogntion, pupillary light response*
+*Keywords: pupillometry, language comprehension, embodied cognition, pupillary light response*
 
 ~
 
@@ -46,6 +46,8 @@ France
 # Results
 
 %-- include: "results.md" --%
+
+~
 
 # Discussion
 

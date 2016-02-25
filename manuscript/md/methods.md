@@ -1,6 +1,6 @@
 ## Materials and availability
 
-Participant data, experimental scripts, and analysis scripts are available from <http://to.do/>.
+Participant data, experimental scripts, and analysis scripts are available from <https://github.com/smathot/semantic_pupil>.
 
 ## Stimuli
 

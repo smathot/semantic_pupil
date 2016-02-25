@@ -30,7 +30,7 @@ def annotated_plot(dm):
 
 	plot.new(size=(8,6))
 	lm = trace_lmer_simple(dm)
-	plt.axvline(792, color='black', linestyle=':')
+	plt.axvline(792, co0lor='black', linestyle=':')
 	x = np.arange(3000)
 	for color, a in [('black', .05), ('orange', .01), ('red',.005)]:
 		threshold = series.threshold(lm.p,
@@ -52,17 +52,35 @@ def trace_lmer_simple(dm, dv='type'):
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	lm = lme4.lmer_series(dm,
 		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
-		% {'dv' : dv}, winlen=300, cacheid='lmer_series_simple.%s' % dv)
+		% {'dv' : dv}, winlen=10, cacheid='lmer_series_simple.%s' % dv)
+	return lm
+
+
+def trace_lmer_ratings(dm, dv='rating_brightness'):
+
+	dm = dm.type != 'animal'
+	print(dm.type.unique, dv)
+	lm = lme4.lmer_series(dm,
+		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
+		% {'dv' : dv}, winlen=10, cacheid='lmer_series_ratings.%s' % dv)
+	threshold = series.threshold(lm.p,
+		lambda p: p > 0 and p<.05, min_length=200)
+	print('Alpha .05 (%.2f)' % series.reduce_(threshold)[1])
+	plt.plot(lm.t[1])
+	plot.threshold(threshold[1], color=blue[1], linewidth=1)
+	plt.show()
 	return lm
 
 
 def model_comparison(dm):
 
-	plot.new()
-	for dv in ['type', 'rating_brightness', 'rating_intensity',
-		'rating_valence']:
-		print(dv)
-		lm = trace_lmer_simple(dm, dv=dv)
-		plt.plot(lm.t[1], label=dv)
-	plt.legend(frameon=False)
-	plot.save('model_comparison')
+	plot.new(size=(8,6))
+	colors = brightcolors[:]
+	for dv in ['rating_brightness', 'rating_valence', 'rating_intensity']:
+		lm = trace_lmer_simple(dm, dv)
+		plt.plot(np.abs(lm.t[1]), color=colors.pop(), label=dv)
+	plt.legend()
+	plt.xticks(range(0, 3001, 500), np.linspace(0,3,7))
+	plt.xlabel('Time from word onset (s)')
+	plt.ylabel('|t|')
+	plot.save('model-comparison')
