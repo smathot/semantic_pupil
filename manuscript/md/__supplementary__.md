@@ -73,7 +73,7 @@ To test how well the semantic brightness, emotional intensity, and valence of th
 		+ (1+rating_valence|subject_nr)
 		+ (1+rating_valence|word)
 
-Here, *rating_brightness*, *rating_intensity*, and *rating_valence* are the subjective word ratings, as described in the Methods of the main text. (We used three separate models with a single predictor, rather than a single model with three predictors, because the high correlations between ratings would cause a combined model to produce a misleading impression of what the actual data looks like.) The results are shown in %FigModelComparison:
+Here, *rating_brightness*, *rating_intensity*, and *rating_valence* are the subjective word ratings, as described in the Methods of the main text. (We used three separate models with a single predictor, rather than a single model with three predictors, because the high correlations between ratings would cause a combined model to produce a misleading impression of what the actual data looks like.) The results are shown in %FigModelComparison, in which the absolute t values (as a proxy for effect size) are plotted for each of the predictors as a function of time from word onset:
 
 %--
 figure:
@@ -85,6 +85,6 @@ figure:
 
 A few things are clear from %FigModelComparison.
 
-First, the t values of `rating_brightness` and `rating_valence` are highly correlated. This is to be expected, because brightness and valence ratings were highly correlated (r=.89; described in the main text). This correlation is too high to allow a meaningful statistical dissociation (for example through partial effects) between brightness and valence ratings. Rather, as we have described in the main text, from a theoretical point of view it is far more likely that the effect of valence on pupil size is mediated by semantic brightness than vice versa.
+First, the t values of `rating_brightness` and `rating_valence` are highly correlated. This is to be expected, because brightness and valence ratings were highly correlated (r=.89; described in the main text). This correlation is too high to allow a meaningful statistical dissociation (for example through partial effects) between brightness and valence ratings. However, as we have described in the main text, from a theoretical point of view it is far more likely that the effect of valence on pupil size is mediated by semantic brightness than vice versa.
 
 Second, emotional intensity predicts pupil size quite well during the initial 'orienting phase' of the pupillary response, around 500 ms after word onset. This may mean that a word's emotional intensity affects the pupil's orienting response (which would be interesting in itself), but may also result from correlations with other factors, such as word length. More importantly for the present study, during the interval of the semantic pupil effect, emotional intensity does not, or hardly, predict pupil size.

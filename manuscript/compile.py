@@ -35,7 +35,7 @@ if '--snapshot' in sys.argv:
 	git.exportFormats = 'pdf', 'docx'
 	git.snapshot('md/__main__.md', msg=sys.argv[-1])
 else:
-	build.PDF('md/__main__.md', 'latest-manuscript.pdf', lineNumbers=False)
+	build.PDF('md/__main__.md', 'latest-manuscript.pdf', lineNumbers=True)
 	build.zoteroApiKey = None
 	build.PDF('md/__supplementary__.md', 'latest-supplementary.pdf',
-		lineNumbers=False)
+		lineNumbers=True)
