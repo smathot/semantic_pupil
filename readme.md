@@ -1,4 +1,4 @@
-# Experimental resources the study "Semantic Pupil"
+# Experimental resources for the study "Semantic Pupil"
 
 Copyright 2015-2016 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
 
