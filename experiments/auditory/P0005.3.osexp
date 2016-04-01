@@ -1,0 +1,815 @@
+---
+API: 2
+OpenSesame: 3.1.0a22
+Platform: posix
+---
+set width 1024
+set uniform_coordinates no
+set transparent_variables no
+set title "P0005.3"
+set synth_backend legacy
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sampler_backend legacy
+set mouse_backend xpyriment
+set keyboard_backend legacy
+set height 768
+set foreground "#555555"
+set font_size 24
+set font_italic no
+set font_family mono
+set font_bold no
+set experiment_path "/home/sebastiaan/Documents/Research/Projects/P0005 [Semantic PLR]/P0005.3 [auditory version]/experiment"
+set description "Auditory version of the semantic-pupillary-response study"
+set coordinates relative
+set compensation 0
+set color_backend legacy
+set clock_backend legacy
+set canvas_backend xpyriment
+set bidi no
+set background "#777777"
+
+define sketchpad break
+	set duration keypress
+	set description "Displays stimuli"
+	draw textline center=1 color="#555555" font_bold=no font_family=mono font_italic=no font_size=22 html=yes show_if=always text="- Pause -" x=0 y=0 z_index=0
+
+define sketchpad correct
+	set duration 500
+	set description "Displays stimuli"
+	draw fixdot color="#005500" show_if=always style=default x=0 y=0 z_index=0
+
+define form_text_display end
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title "<span size=24>Fin</span>"
+	__form_text__
+	L'expérience est maintenant terminée.
+	
+	Merci pour votre participation !
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run validate always
+	run pygaze_init always
+	run instructions_1 always
+	run instructions_2 always
+	run training_loop always
+	run instructions_3 always
+	run loop always
+	run end always
+
+define sketchpad false
+	set duration 500
+	set description "Displays stimuli"
+	draw fixdot color="#780000" show_if=always style=default x=0 y=0 z_index=0
+
+define sketchpad fixation
+	set duration 3000
+	set description "Displays stimuli"
+	draw fixdot color="#555555" show_if=always style=default x=0 y=0 z_index=0
+
+define form_text_display instructions_1
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title "<span size=24>Instructions</span>"
+	__form_text__
+	Lors de cette expérience, vous entendez des mots par les haut parleurs.
+	
+	Le but est d'appuyer sur la barre d'espace lorsque vous entendez un noms d'animal et de n'appuyer sur aucune touche dans le cas contraire.
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display instructions_2
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title "<span size=24>Instructions</span>"
+	__form_text__
+	L'expérience va tout d'abord commencer par une courte phase d'entraînement.
+	
+	Veuillez appuyer sur le bouton "OK" pour débuter l'entraînement.
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define form_text_display instructions_3
+	set timeout infinite
+	set spacing 10
+	set rows "1;4;1"
+	set only_render no
+	set ok_text Ok
+	set margins "50;50;50;50"
+	set form_title "<span size=24>Instructions</span>"
+	__form_text__
+	L'entraînement est terminé, nous allons maintenant passer à la véritable phase de l'expérience.
+	
+	Veuillez appuyer sur le bouton "OK" pour débuter l'expérience.
+	__end__
+	set description "A simple text display form"
+	set cols "1;1;1"
+	set _theme gray
+	widget 0 0 3 1 label text="[form_title]"
+	widget 0 1 3 1 label center=no text="[form_text]"
+	widget 1 2 1 1 button text="[ok_text]"
+
+
+define keyboard_response keyboard_response
+	set timeout 3000
+	set flush yes
+	set duration keypress
+	set description "Collects keyboard responses"
+	set allowed_responses space
+
+define logger logger
+	set description "Logs experimental data"
+	set auto_log yes
+
+define loop loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set item trial_sequence
+	set description "Repeatedly runs another item"
+	set cycles 122
+	set continuous no
+	set column_order "word;type;correct_response"
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 correct_response None
+	setcycle 0 word lumière
+	setcycle 0 type light
+	setcycle 0 practice no
+	setcycle 1 correct_response None
+	setcycle 1 word lumineux
+	setcycle 1 type light
+	setcycle 1 practice no
+	setcycle 2 correct_response None
+	setcycle 2 word luminosité
+	setcycle 2 type light
+	setcycle 2 practice no
+	setcycle 3 correct_response None
+	setcycle 3 word éclatant
+	setcycle 3 type light
+	setcycle 3 practice no
+	setcycle 4 correct_response None
+	setcycle 4 word éclairé
+	setcycle 4 type light
+	setcycle 4 practice no
+	setcycle 5 correct_response None
+	setcycle 5 word éclaircie
+	setcycle 5 type light
+	setcycle 5 practice no
+	setcycle 6 correct_response None
+	setcycle 6 word éclairer
+	setcycle 6 type light
+	setcycle 6 practice no
+	setcycle 7 correct_response None
+	setcycle 7 word éclaircissement
+	setcycle 7 type light
+	setcycle 7 practice no
+	setcycle 8 correct_response None
+	setcycle 8 word brillant
+	setcycle 8 type light
+	setcycle 8 practice no
+	setcycle 9 correct_response None
+	setcycle 9 word brillance
+	setcycle 9 type light
+	setcycle 9 practice no
+	setcycle 10 correct_response None
+	setcycle 10 word briller
+	setcycle 10 type light
+	setcycle 10 practice no
+	setcycle 11 correct_response None
+	setcycle 11 word illuminé
+	setcycle 11 type light
+	setcycle 11 practice no
+	setcycle 12 correct_response None
+	setcycle 12 word illuminer
+	setcycle 12 type light
+	setcycle 12 practice no
+	setcycle 13 correct_response None
+	setcycle 13 word illumination
+	setcycle 13 type light
+	setcycle 13 practice no
+	setcycle 14 correct_response None
+	setcycle 14 word illuminant
+	setcycle 14 type light
+	setcycle 14 practice no
+	setcycle 15 correct_response None
+	setcycle 15 word scintillant
+	setcycle 15 type light
+	setcycle 15 practice no
+	setcycle 16 correct_response None
+	setcycle 16 word scintillement
+	setcycle 16 type light
+	setcycle 16 practice no
+	setcycle 17 correct_response None
+	setcycle 17 word scintiller
+	setcycle 17 type light
+	setcycle 17 practice no
+	setcycle 18 correct_response None
+	setcycle 18 word blanc
+	setcycle 18 type light
+	setcycle 18 practice no
+	setcycle 19 correct_response None
+	setcycle 19 word blanchi
+	setcycle 19 type light
+	setcycle 19 practice no
+	setcycle 20 correct_response None
+	setcycle 20 word blanchir
+	setcycle 20 type light
+	setcycle 20 practice no
+	setcycle 21 correct_response None
+	setcycle 21 word blanchiment
+	setcycle 21 type light
+	setcycle 21 practice no
+	setcycle 22 correct_response None
+	setcycle 22 word blanchissement
+	setcycle 22 type light
+	setcycle 22 practice no
+	setcycle 23 correct_response None
+	setcycle 23 word jour
+	setcycle 23 type light
+	setcycle 23 practice no
+	setcycle 24 correct_response None
+	setcycle 24 word luisant
+	setcycle 24 type light
+	setcycle 24 practice no
+	setcycle 25 correct_response None
+	setcycle 25 word luire
+	setcycle 25 type light
+	setcycle 25 practice no
+	setcycle 26 correct_response None
+	setcycle 26 word ensoleillé
+	setcycle 26 type light
+	setcycle 26 practice no
+	setcycle 27 correct_response None
+	setcycle 27 word ensoleiller
+	setcycle 27 type light
+	setcycle 27 practice no
+	setcycle 28 correct_response None
+	setcycle 28 word ébloui
+	setcycle 28 type light
+	setcycle 28 practice no
+	setcycle 29 correct_response None
+	setcycle 29 word éblouissant
+	setcycle 29 type light
+	setcycle 29 practice no
+	setcycle 30 correct_response None
+	setcycle 30 word éblouir
+	setcycle 30 type light
+	setcycle 30 practice no
+	setcycle 31 correct_response None
+	setcycle 31 word étincelant
+	setcycle 31 type light
+	setcycle 31 practice no
+	setcycle 32 correct_response None
+	setcycle 32 word étinceler
+	setcycle 32 type light
+	setcycle 32 practice no
+	setcycle 33 correct_response None
+	setcycle 33 word ténèbres
+	setcycle 33 type dark
+	setcycle 33 practice no
+	setcycle 34 correct_response None
+	setcycle 34 word ténébreux
+	setcycle 34 type dark
+	setcycle 34 practice no
+	setcycle 35 correct_response None
+	setcycle 35 word pénombre
+	setcycle 35 type dark
+	setcycle 35 practice no
+	setcycle 36 correct_response None
+	setcycle 36 word sombre
+	setcycle 36 type dark
+	setcycle 36 practice no
+	setcycle 37 correct_response None
+	setcycle 37 word assombrir
+	setcycle 37 type dark
+	setcycle 37 practice no
+	setcycle 38 correct_response None
+	setcycle 38 word assombrissement
+	setcycle 38 type dark
+	setcycle 38 practice no
+	setcycle 39 correct_response None
+	setcycle 39 word noir
+	setcycle 39 type dark
+	setcycle 39 practice no
+	setcycle 40 correct_response None
+	setcycle 40 word noirceur
+	setcycle 40 type dark
+	setcycle 40 practice no
+	setcycle 41 correct_response None
+	setcycle 41 word noirci
+	setcycle 41 type dark
+	setcycle 41 practice no
+	setcycle 42 correct_response None
+	setcycle 42 word noircir
+	setcycle 42 type dark
+	setcycle 42 practice no
+	setcycle 43 correct_response None
+	setcycle 43 word nuit
+	setcycle 43 type dark
+	setcycle 43 practice no
+	setcycle 44 correct_response None
+	setcycle 44 word obscur
+	setcycle 44 type dark
+	setcycle 44 practice no
+	setcycle 45 correct_response None
+	setcycle 45 word obscurcissement
+	setcycle 45 type dark
+	setcycle 45 practice no
+	setcycle 46 correct_response None
+	setcycle 46 word obscurité
+	setcycle 46 type dark
+	setcycle 46 practice no
+	setcycle 47 correct_response None
+	setcycle 47 word obscurcir
+	setcycle 47 type dark
+	setcycle 47 practice no
+	setcycle 48 correct_response None
+	setcycle 48 word ombre
+	setcycle 48 type dark
+	setcycle 48 practice no
+	setcycle 49 correct_response None
+	setcycle 49 word ombragé
+	setcycle 49 type dark
+	setcycle 49 practice no
+	setcycle 50 correct_response None
+	setcycle 50 word ombrager
+	setcycle 50 type dark
+	setcycle 50 practice no
+	setcycle 51 correct_response None
+	setcycle 51 word ombrage
+	setcycle 51 type dark
+	setcycle 51 practice no
+	setcycle 52 correct_response None
+	setcycle 52 word ombrant
+	setcycle 52 type dark
+	setcycle 52 practice no
+	setcycle 53 correct_response None
+	setcycle 53 word foncé
+	setcycle 53 type dark
+	setcycle 53 practice no
+	setcycle 54 correct_response None
+	setcycle 54 word pénombre
+	setcycle 54 type dark
+	setcycle 54 practice no
+	setcycle 55 correct_response None
+	setcycle 55 word opacité
+	setcycle 55 type dark
+	setcycle 55 practice no
+	setcycle 56 correct_response None
+	setcycle 56 word opaque
+	setcycle 56 type dark
+	setcycle 56 practice no
+	setcycle 57 correct_response None
+	setcycle 57 word opacifier
+	setcycle 57 type dark
+	setcycle 57 practice no
+	setcycle 58 correct_response None
+	setcycle 58 word terne
+	setcycle 58 type dark
+	setcycle 58 practice no
+	setcycle 59 correct_response None
+	setcycle 59 word terni
+	setcycle 59 type dark
+	setcycle 59 practice no
+	setcycle 60 correct_response None
+	setcycle 60 word ternir
+	setcycle 60 type dark
+	setcycle 60 practice no
+	setcycle 61 correct_response None
+	setcycle 61 word enténébrer
+	setcycle 61 type dark
+	setcycle 61 practice no
+	setcycle 62 correct_response None
+	setcycle 62 word brumeux
+	setcycle 62 type dark
+	setcycle 62 practice no
+	setcycle 63 correct_response None
+	setcycle 63 word trouble
+	setcycle 63 type dark
+	setcycle 63 practice no
+	setcycle 64 correct_response None
+	setcycle 64 word insalubre
+	setcycle 64 type dark
+	setcycle 64 practice no
+	setcycle 65 correct_response None
+	setcycle 65 word nuageux
+	setcycle 65 type dark
+	setcycle 65 practice no
+	setcycle 66 correct_response None
+	setcycle 66 word ennuager
+	setcycle 66 type dark
+	setcycle 66 practice no
+	setcycle 67 correct_response None
+	setcycle 67 word abandonner
+	setcycle 67 type ctrl
+	setcycle 67 practice no
+	setcycle 68 correct_response None
+	setcycle 68 word abstenir
+	setcycle 68 type ctrl
+	setcycle 68 practice no
+	setcycle 69 correct_response None
+	setcycle 69 word fracasser
+	setcycle 69 type ctrl
+	setcycle 69 practice no
+	setcycle 70 correct_response None
+	setcycle 70 word justifier
+	setcycle 70 type ctrl
+	setcycle 70 practice no
+	setcycle 71 correct_response None
+	setcycle 71 word permettre
+	setcycle 71 type ctrl
+	setcycle 71 practice no
+	setcycle 72 correct_response None
+	setcycle 72 word renforcer
+	setcycle 72 type ctrl
+	setcycle 72 practice no
+	setcycle 73 correct_response None
+	setcycle 73 word décider
+	setcycle 73 type ctrl
+	setcycle 73 practice no
+	setcycle 74 correct_response None
+	setcycle 74 word cacher
+	setcycle 74 type ctrl
+	setcycle 74 practice no
+	setcycle 75 correct_response None
+	setcycle 75 word assistant
+	setcycle 75 type ctrl
+	setcycle 75 practice no
+	setcycle 76 correct_response None
+	setcycle 76 word auberge
+	setcycle 76 type ctrl
+	setcycle 76 practice no
+	setcycle 77 correct_response None
+	setcycle 77 word conséquence
+	setcycle 77 type ctrl
+	setcycle 77 practice no
+	setcycle 78 correct_response None
+	setcycle 78 word dessin
+	setcycle 78 type ctrl
+	setcycle 78 practice no
+	setcycle 79 correct_response None
+	setcycle 79 word nourriture
+	setcycle 79 type ctrl
+	setcycle 79 practice no
+	setcycle 80 correct_response None
+	setcycle 80 word mère
+	setcycle 80 type ctrl
+	setcycle 80 practice no
+	setcycle 81 correct_response None
+	setcycle 81 word personnel
+	setcycle 81 type ctrl
+	setcycle 81 practice no
+	setcycle 82 correct_response None
+	setcycle 82 word peuple
+	setcycle 82 type ctrl
+	setcycle 82 practice no
+	setcycle 83 correct_response None
+	setcycle 83 word photographe
+	setcycle 83 type ctrl
+	setcycle 83 practice no
+	setcycle 84 correct_response None
+	setcycle 84 word satisfaction
+	setcycle 84 type ctrl
+	setcycle 84 practice no
+	setcycle 85 correct_response None
+	setcycle 85 word témoin
+	setcycle 85 type ctrl
+	setcycle 85 practice no
+	setcycle 86 correct_response None
+	setcycle 86 word sésame
+	setcycle 86 type ctrl
+	setcycle 86 practice no
+	setcycle 87 correct_response None
+	setcycle 87 word absent
+	setcycle 87 type ctrl
+	setcycle 87 practice no
+	setcycle 88 correct_response None
+	setcycle 88 word artistique
+	setcycle 88 type ctrl
+	setcycle 88 practice no
+	setcycle 89 correct_response None
+	setcycle 89 word blond
+	setcycle 89 type ctrl
+	setcycle 89 practice no
+	setcycle 90 correct_response None
+	setcycle 90 word brève
+	setcycle 90 type ctrl
+	setcycle 90 practice no
+	setcycle 91 correct_response None
+	setcycle 91 word charmant
+	setcycle 91 type ctrl
+	setcycle 91 practice no
+	setcycle 92 correct_response None
+	setcycle 92 word contraire
+	setcycle 92 type ctrl
+	setcycle 92 practice no
+	setcycle 93 correct_response None
+	setcycle 93 word familier
+	setcycle 93 type ctrl
+	setcycle 93 practice no
+	setcycle 94 correct_response None
+	setcycle 94 word généreux
+	setcycle 94 type ctrl
+	setcycle 94 practice no
+	setcycle 95 correct_response None
+	setcycle 95 word honnête
+	setcycle 95 type ctrl
+	setcycle 95 practice no
+	setcycle 96 correct_response None
+	setcycle 96 word mondial
+	setcycle 96 type ctrl
+	setcycle 96 practice no
+	setcycle 97 correct_response None
+	setcycle 97 word simulé
+	setcycle 97 type ctrl
+	setcycle 97 practice no
+	setcycle 98 correct_response None
+	setcycle 98 word opposé
+	setcycle 98 type ctrl
+	setcycle 98 practice no
+	setcycle 99 correct_response None
+	setcycle 99 word paisible
+	setcycle 99 type ctrl
+	setcycle 99 practice no
+	setcycle 100 correct_response None
+	setcycle 100 word scandaleux
+	setcycle 100 type ctrl
+	setcycle 100 practice no
+	setcycle 101 correct_response None
+	setcycle 101 word sentimental
+	setcycle 101 type ctrl
+	setcycle 101 practice no
+	setcycle 102 correct_response space
+	setcycle 102 word antilope
+	setcycle 102 type animal
+	setcycle 102 practice no
+	setcycle 103 correct_response space
+	setcycle 103 word baleine
+	setcycle 103 type animal
+	setcycle 103 practice no
+	setcycle 104 correct_response space
+	setcycle 104 word castor
+	setcycle 104 type animal
+	setcycle 104 practice no
+	setcycle 105 correct_response space
+	setcycle 105 word chameau
+	setcycle 105 type animal
+	setcycle 105 practice no
+	setcycle 106 correct_response space
+	setcycle 106 word chat
+	setcycle 106 type animal
+	setcycle 106 practice no
+	setcycle 107 correct_response space
+	setcycle 107 word chimpanzé
+	setcycle 107 type animal
+	setcycle 107 practice no
+	setcycle 108 correct_response space
+	setcycle 108 word gorille
+	setcycle 108 type animal
+	setcycle 108 practice no
+	setcycle 109 correct_response space
+	setcycle 109 word girafe
+	setcycle 109 type animal
+	setcycle 109 practice no
+	setcycle 110 correct_response space
+	setcycle 110 word hippopotame
+	setcycle 110 type animal
+	setcycle 110 practice no
+	setcycle 111 correct_response space
+	setcycle 111 word loup
+	setcycle 111 type animal
+	setcycle 111 practice no
+	setcycle 112 correct_response space
+	setcycle 112 word lapin
+	setcycle 112 type animal
+	setcycle 112 practice no
+	setcycle 113 correct_response space
+	setcycle 113 word marmotte
+	setcycle 113 type animal
+	setcycle 113 practice no
+	setcycle 114 correct_response space
+	setcycle 114 word ours
+	setcycle 114 type animal
+	setcycle 114 practice no
+	setcycle 115 correct_response space
+	setcycle 115 word otarie
+	setcycle 115 type animal
+	setcycle 115 practice no
+	setcycle 116 correct_response space
+	setcycle 116 word rat
+	setcycle 116 type animal
+	setcycle 116 practice no
+	setcycle 117 correct_response space
+	setcycle 117 word renard
+	setcycle 117 type animal
+	setcycle 117 practice no
+	setcycle 118 correct_response space
+	setcycle 118 word singe
+	setcycle 118 type animal
+	setcycle 118 practice no
+	setcycle 119 correct_response space
+	setcycle 119 word souris
+	setcycle 119 type animal
+	setcycle 119 practice no
+	setcycle 120 correct_response space
+	setcycle 120 word tigre
+	setcycle 120 type animal
+	setcycle 120 practice no
+	setcycle 121 correct_response space
+	setcycle 121 word vache
+	setcycle 121 type animal
+	setcycle 121 practice no
+	run trial_sequence
+
+define pygaze_drift_correct pygaze_drift_correct
+	set ypos 0
+	set xpos 0
+	set target_style "small-cross"
+	set target_color "[foreground]"
+	set mode "Automatic (fixation triggered)"
+	set fixation_triggered yes
+	set draw_target yes
+	set description "Drift correction plugin for the Eyelink series of eye trackers (SR-Research)"
+
+define pygaze_init pygaze_init
+	set tracker_type "Simple dummy"
+	set tracker_attached Yes
+	set smi_send_port 4444
+	set smi_recv_port 5555
+	set smi_ip "127.0.0.1"
+	set sacc_vel_thresh 35
+	set sacc_vel_thr 35
+	set sacc_acc_thresh 9500
+	set sacc_acc_thr 9500
+	set force_drift_correct yes
+	set eyelink_pupil_size_mode area
+	set eyelink_force_drift_correct yes
+	set description "Calibration/ initialization plugin for the Eyelink series of eye trackers (SR-Research)"
+	set calibrate yes
+	set calbeep yes
+	set cal_target_size 16
+	set cal_beep yes
+	set _logfile automatic
+
+define pygaze_log pygaze_log
+	set throttle 2
+	set msg ""
+	set description "Message log for the Eyelink series of eye trackers (SR-Research)"
+	set auto_log yes
+
+define pygaze_log pygaze_log_break
+	set throttle 0
+	__msg__
+	phase break
+	__end__
+	set description "Message log for the Eyelink series of eye trackers (SR-Research)"
+	set auto_log no
+
+define pygaze_log pygaze_log_fixation
+	set throttle 0
+	set msg "phase fixation"
+	set description "Message log for the Eyelink series of eye trackers (SR-Research)"
+	set auto_log no
+
+define pygaze_log pygaze_log_response
+	set throttle 0
+	set msg "phase feedback"
+	set description "Message log for the Eyelink series of eye trackers (SR-Research)"
+	set auto_log no
+
+define pygaze_log pygaze_log_target
+	set throttle 0
+	set msg "phase target"
+	set description "Message log for the Eyelink series of eye trackers (SR-Research)"
+	set auto_log no
+
+define pygaze_start_recording pygaze_start_recording
+	set status_msg "start_trial [count_trial_sequence]"
+	set log_msg "start_trial [count_trial_sequence]"
+	set description "Start recording plugin for the Eyelink series of eye trackers (SR-Research)"
+
+define pygaze_stop_recording pygaze_stop_recording
+	set status_msg stop_trial
+	set description "Stops recording of eye tracking data"
+
+define sampler target
+	set volume 1
+	set stop_after 0
+	set sample "_[word].ogg"
+	set pitch 1
+	set pan 0
+	set fade_in 0
+	set duration sound
+	set description "Plays a sound file in .wav or .ogg format"
+
+define loop training_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set item trial_sequence
+	set description "Repeatedly runs another item"
+	set cycles 10
+	set continuous no
+	set column_order "correct_response;word"
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 correct_response None
+	setcycle 0 word chère
+	setcycle 0 practice yes
+	setcycle 1 correct_response None
+	setcycle 1 word collecte
+	setcycle 1 practice yes
+	setcycle 2 correct_response None
+	setcycle 2 word malade
+	setcycle 2 practice yes
+	setcycle 3 correct_response None
+	setcycle 3 word léger
+	setcycle 3 practice yes
+	setcycle 4 correct_response None
+	setcycle 4 word joyeux
+	setcycle 4 practice yes
+	setcycle 5 correct_response None
+	setcycle 5 word inégalé
+	setcycle 5 practice yes
+	setcycle 6 correct_response None
+	setcycle 6 word reflet
+	setcycle 6 practice yes
+	setcycle 7 correct_response None
+	setcycle 7 word rincer
+	setcycle 7 practice yes
+	setcycle 8 correct_response space
+	setcycle 8 word pigeon
+	setcycle 8 practice yes
+	setcycle 9 correct_response space
+	setcycle 9 word cheval
+	setcycle 9 practice yes
+	run trial_sequence
+
+define sequence trial_sequence
+	set flush_keyboard yes
+	set description "Runs a number of items in sequence"
+	run pygaze_drift_correct always
+	run pygaze_start_recording always
+	run pygaze_log_fixation always
+	run fixation always
+	run pygaze_log_target always
+	run target always
+	run keyboard_response always
+	run pygaze_log_response always
+	run correct "[correct] = 1"
+	run false "[correct] = 0"
+	run pygaze_log_break "[count_target] = 25 or [count_target] = 50 or [count_target] = 75 or [count_target] = 100"
+	run break "[count_target] = 25 or [count_target] = 50 or [count_target] = 75 or [count_target] = 100"
+	run logger always
+	run pygaze_log always
+	run pygaze_stop_recording always
+
+define inline_script validate
+	set description "Checks whether the file pool is complete"
+	___run__
+	for word in items['loop'].dm.word:
+		print(u'checking %s ...' % word)
+		if u'_%s.wav' % word not in pool:
+			raise Exception(u'Missing: %s' % word)
+	__end__
+	set _prepare ""
+
