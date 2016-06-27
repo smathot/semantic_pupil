@@ -25,15 +25,23 @@ from scipy.stats import nanmedian
 import numpy as np
 import os
 
-if 'analysis-auditory' in os.getcwd():
-	PEAKWIN = 1000, 1500
-else:
-	PEAKWIN = 1500, 2000
+PEAKWIN = 1000, 2000
+
+# if 'analysis-auditory' in os.getcwd():
+# 	PEAKWIN = 1000, 1500
+# else:
+# 	PEAKWIN = 1500, 2000
 print('PEAKWIN: %d - %d' % PEAKWIN)
 
 
 @cached
 def preprocess(dm):
+
+	"""
+	desc:
+		Performs pupil preprocessing, and removes trials where pupil size was
+		unrealistic.
+	"""
 
 	dm.pupil = series.blinkreconstruct(dm.ptrace_target)
 	dm.pupil.depth = 3000
@@ -51,16 +59,68 @@ def preprocess(dm):
 
 def size(dm, start=0, end=None):
 
+	"""
+	desc:
+		Gets the mean pupil size during a time window.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		start:	The start time.
+		end:	The end time, or None for trace end.
+
+	returns:
+		type:
+			ndarrray
+	"""
+
 	return series.reduce_(series.window(dm.pupil, start=start, end=end)).mean
 
 
 def size_se(dm, start=0, end=None):
+
+	"""
+	desc:
+		Gets the pupil-size standard error during a time window.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		start:	The start time.
+		end:	The end time, or None for trace end.
+
+	returns:
+		type:
+			ndarrray
+	"""
 
 	s = series.reduce_(series.window(dm.pupil, start=start, end=end))
 	return s.mean, s.std / len(s)**.5
 
 
 def effect(dm, start=0, end=None):
+
+	"""
+	desc:
+		Gets the difference in pupil size between dark and bright trials
+		during a time window.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		start:	The start time.
+		end:	The end time, or None for trace end.
+
+	returns:
+		type:
+			ndarrray
+	"""
 
 	dm_bright = dm.type == 'light'
 	dm_dark = dm.type == 'dark'
@@ -70,6 +130,24 @@ def effect(dm, start=0, end=None):
 
 
 def effect_se(dm, start=0, end=None):
+
+	"""
+	desc:
+		Gets the standard error of the differencein pupil size between dark and
+		bright trials during a time window.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		start:	The start time.
+		end:	The end time, or None for trace end.
+
+	returns:
+		type:
+			ndarrray
+	"""
 
 	dm_bright = dm.type == 'light'
 	dm_dark = dm.type == 'dark'
@@ -81,6 +159,18 @@ def effect_se(dm, start=0, end=None):
 
 
 def brightness_plot(dm, subplot=False):
+
+	"""
+	desc:
+		Plots mean pupil size separately for dark and bright trials over time.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		subplot:	Indicates whether a new plot should be created, or not.
+	"""
 
 	if not subplot:
 		plot.new()
@@ -97,6 +187,16 @@ def brightness_plot(dm, subplot=False):
 
 def subject_diff_traces(dm):
 
+	"""
+	desc:
+		Plots the difference in pupil size for dark and bright trials over time,
+		separately for each participant.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
+
 	plot.new()
 	x = np.arange(dm.pupil.depth)
 	for i, s in enumerate(dm.subject_nr.unique):
@@ -109,6 +209,17 @@ def subject_diff_traces(dm):
 
 
 def subject_summary(dm):
+
+	"""
+	desc:
+		Plots the mean difference in pupil size between dark and bright trials
+		for each participant as a bar plot. The time window is indicated by the
+		PEAKWIN constant. This data is also written to a .csv file.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
 
 	x = np.arange(len(dm.subject_nr.unique))
 	sm = DataMatrix(length=len(dm.subject_nr.unique))
@@ -134,10 +245,21 @@ def subject_summary(dm):
 	plt.xlabel('Participant')
 	plt.xticks([])
 	plot.save('subject_summary')
-	io.writetxt(sm, 'output/subject_summary.csv')
+	io.writetxt(sm, '%s/subject_summary.csv' % OUTPUT_FOLDER)
 
 
 def word_summary(dm):
+
+	"""
+	desc:
+		Plots the mean pupil size for dark and bright words as a bar plot. The
+		time window is indicated by the PEAKWIN constant. This data is also
+		written to a .csv file.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
 
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	x = np.arange(dm.pupil.depth)
@@ -156,7 +278,7 @@ def word_summary(dm):
 			PEAKWIN[0], PEAKWIN[1])
 		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)
 	sm = operations.sort(sm, sm.pupil_win)
-	io.writetxt(sm, 'output/word_summary.csv')
+	io.writetxt(sm, '%s/word_summary.csv' % OUTPUT_FOLDER)
 
 	plot.new(size=(4,3))
 	dx = 0

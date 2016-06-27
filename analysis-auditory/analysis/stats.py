@@ -28,11 +28,26 @@ import numpy as np
 
 def annotated_plot(dm):
 
+	"""
+	desc:
+		Plots mean pupil size separately for dark and bright trials, and
+		annotates the plot with significance markers.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
+
 	plot.new(size=(8,6))
 	lm = trace_lmer_simple(dm)
 	plt.axvline(792, color='black', linestyle=':')
 	x = np.arange(3000)
-	for color, a in [('black', 1.96), ('red', 2.57), ('orange', 2.81), ('yellow', 3.29)]:
+	for color, a in [
+			('black', 1.96), # p < .05
+			('red', 2.57), # p < .01
+			('orange', 2.81), # p < .005
+			('yellow', 3.29) # p < .001
+			]:
 		threshold = series.threshold(lm.t,
 			lambda t: abs(t) > a, min_length=1)
 		print('Alpha %.5f (%.2f)' % (a, series.reduce_(threshold)[1]))
@@ -49,6 +64,23 @@ def annotated_plot(dm):
 
 def trace_lmer_simple(dm, dv='type'):
 
+	"""
+	desc:
+		Runs the main LME for each 10 ms window separately. Here the word type
+		(bright or dark) is a fixed, pupil size is a dependent measure, and the
+		model contains random by-participant slopes and intercepts.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		dv:		The dependent variable.
+
+	returns:
+		desc:	A DataMatrix with statistical results.
+	"""
+
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	lm = lme4.lmer_series(dm,
 		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
@@ -57,6 +89,8 @@ def trace_lmer_simple(dm, dv='type'):
 
 
 def trace_lmer_ratings(dm, dv='rating_brightness'):
+
+	"""TODO"""
 
 	dm = dm.type != 'animal'
 	print(dm.type.unique, dv)
@@ -73,6 +107,8 @@ def trace_lmer_ratings(dm, dv='rating_brightness'):
 
 
 def model_comparison(dm):
+
+	"""TODO"""	
 
 	plot.new(size=(8,6))
 	colors = brightcolors[:]

@@ -26,6 +26,20 @@ import numpy as np
 @cached
 def filter_(dm):
 
+	"""
+	desc:
+		Applies basic filtering to the parsed data, by removing unnecessary
+		columns, filtering out practice trials, etc. This function does not do
+		pupil-size preprocessing; this is handled by pupil.preprocess()
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	returns:
+		type:	DataMatrix
+	"""
+
 	# Keep only relevant columns to speed up processing
 	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target',
 		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
@@ -54,34 +68,44 @@ def filter_(dm):
 		print('N(word) = %d, Errors(%s) = %d (%.2f %%) of %d' \
 			% (n_word, type_, errors, error_percent, total))
 	dm = dm.correct == 1
-	# # Add new columns
-	# print('Adding columns')
-	# dm.rating_brightness = FloatColumn
-	# dm.rating_valence = FloatColumn
-	# dm.rating_intensity = FloatColumn
-	# dm.word_len = IntColumn
-	# dm.word_len = [len(word) for word in dm.word]
-	# # Integrate the normative ratings and French lexicon project into the data
-	# print('Integrating normative ratings')
-	# ratings = io.readtxt('ratings.csv')
-	# ratings.ascii_word = [word.encode('ascii', errors='ignore') \
-	# 	for word in ratings.word]
-	# for row in dm:
-	# 	# The animal names haven't been rated
-	# 	if row.type == 'animal':
-	# 		continue
-	# 	# The special characters have been stripped in the EDF file, but not from
-	# 	# the ratings data. We assert that we have exactly one match between the
-	# 	# ascii-fied and original word to make sure that we map things correctly.
-	# 	rating = ratings.ascii_word == row.word
-	# 	assert(len(rating) == 1)
-	# 	row.rating_brightness = rating.rating_brightness[0]
-	# 	row.rating_valence = rating.rating_valence[0]
-	# 	row.rating_intensity = rating.rating_intensity[0]
+	# Add new columns
+	print('Adding columns')
+	dm.rating_brightness = FloatColumn
+	dm.rating_valence = FloatColumn
+	dm.rating_intensity = FloatColumn
+	dm.word_len = IntColumn
+	dm.word_len = [len(word) for word in dm.word]
+	# Integrate the normative ratings and French lexicon project into the data
+	print('Integrating normative ratings')
+	ratings = io.readtxt('ratings.csv')
+	ratings.ascii_word = [word.encode('ascii', errors='ignore') \
+		for word in ratings.word]
+	for row in dm:
+		# The animal names haven't been rated
+		if row.type == 'animal':
+			continue
+		# The special characters have been stripped in the EDF file, but not from
+		# the ratings data. We assert that we have exactly one match between the
+		# ascii-fied and original word to make sure that we map things correctly.
+		rating = ratings.ascii_word == row.word
+		assert(len(rating) == 1)
+		row.rating_brightness = rating.rating_brightness[0]
+		row.rating_valence = rating.rating_valence[0]
+		row.rating_intensity = rating.rating_intensity[0]
 	return dm
 
 
 def descriptives(dm):
+
+	"""
+	desc:
+		Provides basic descriptives of response times. These are printed
+		directly to the stdout.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
 
 	ops.keep_only(dm, cols=['type', 'rt'])
 	gm = ops.group(dm, by=[dm.type])

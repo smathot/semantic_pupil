@@ -16,18 +16,37 @@ You should have received a copy of the GNU General Public License
 along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import sys
+import os
 import eyelinkparser
 from analysis import helpers, pupil, stats, parse
-from datamatrix import io, dispatch
+from datamatrix import io, dispatch, _cache, plot
+
+if not os.path.exists('ratings.csv'):
+	raise Exception('Please run analyze-ratings.py first')
+
+if '--auditory' in sys.argv:
+	folder = 'data-pupil-asc/auditory'
+	_cache.cachefolder = '.cache-auditory'
+	plot.plotfolder = 'plot-auditory'
+	pupil.OUTPUT_FOLDER = 'output-auditory'
+elif '--visual' in sys.argv:
+	folder = 'data-pupil-asc/visual'
+	_cache.cachefolder = '.cache-visual'
+	plot.plotfolder = 'plot-visual'
+	pupil.OUTPUT_FOLDER = 'output-visual'
+else:
+	raise Exception('Please specify --auditory or --visual')
 
 dm = dispatch.waterfall(
 		(eyelinkparser.parse, 'data', {
-			'folder' : 'data-pupil-asc',
+			'folder' : folder,
 			'parser' : parse.CustomParser
 			}),
 		(helpers.filter_, 'data-filtered', {}),
 		(pupil.preprocess, 'data-preprocessed', {}),
 	)
+
 dispatch.dispatch(dm,
 	modules=[
 		helpers,
