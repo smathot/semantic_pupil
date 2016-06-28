@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# coding=utf-8
 
 """
 This file is part of P0005.1.
@@ -17,10 +17,11 @@ You should have received a copy of the GNU General Public License
 along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from analysis.constants import *
+from analysis import pupil
 from datamatrix.rbridge import lme4
 from datamatrix import series
 from matplotlib import pyplot as plt
-from analysis import pupil
 from datamatrix import plot
 from datamatrix.colors.tango import *
 import numpy as np
@@ -28,13 +29,28 @@ import numpy as np
 
 def annotated_plot(dm):
 
+	"""
+	desc:
+		Plots mean pupil size separately for dark and bright trials, and
+		annotates the plot with significance markers.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
+
 	plot.new(size=(8,6))
 	lm = trace_lmer_simple(dm)
-	plt.axvline(792, co0lor='black', linestyle=':')
+	plt.axvline(RT, color='black', linestyle=':')
 	x = np.arange(3000)
-	for color, a in [('black', .05), ('orange', .01), ('red',.005)]:
-		threshold = series.threshold(lm.p,
-			lambda p: p > 0 and p<a, min_length=1)
+	for color, a in [
+			('black', 1.96), # p < .05
+			('red', 2.57), # p < .01
+			('orange', 2.81), # p < .005
+			('yellow', 3.29) # p < .001
+			]:
+		threshold = series.threshold(lm.t,
+			lambda t: abs(t) > a, min_length=1)
 		print('Alpha %.5f (%.2f)' % (a, series.reduce_(threshold)[1]))
 		plot.threshold(threshold[1], color=color, linewidth=1)
 	dm_dark = dm.type == 'ctrl'
@@ -49,14 +65,33 @@ def annotated_plot(dm):
 
 def trace_lmer_simple(dm, dv='type'):
 
+	"""
+	desc:
+		Runs the main LME for each 10 ms window separately. Here the word type
+		(bright or dark) is a fixed, pupil size is a dependent measure, and the
+		model contains random by-participant slopes and intercepts.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		dv:		The dependent variable.
+
+	returns:
+		desc:	A DataMatrix with statistical results.
+	"""
+
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	lm = lme4.lmer_series(dm,
 		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
-		% {'dv' : dv}, winlen=10, cacheid='lmer_series_simple.%s' % dv)
+		% {'dv' : dv}, winlen=WINLEN, cacheid='lmer_series_simple.%s' % dv)
 	return lm
 
 
 def trace_lmer_ratings(dm, dv='rating_brightness'):
+
+	"""TODO"""
 
 	dm = dm.type != 'animal'
 	print(dm.type.unique, dv)
@@ -73,6 +108,8 @@ def trace_lmer_ratings(dm, dv='rating_brightness'):
 
 
 def model_comparison(dm):
+
+	"""TODO"""
 
 	plot.new(size=(8,6))
 	colors = brightcolors[:]

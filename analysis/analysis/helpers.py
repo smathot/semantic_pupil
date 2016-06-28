@@ -26,6 +26,20 @@ import numpy as np
 @cached
 def filter_(dm):
 
+	"""
+	desc:
+		Applies basic filtering to the parsed data, by removing unnecessary
+		columns, filtering out practice trials, etc. This function does not do
+		pupil-size preprocessing; this is handled by pupil.preprocess()
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	returns:
+		type:	DataMatrix
+	"""
+
 	# Keep only relevant columns to speed up processing
 	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target',
 		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
@@ -73,7 +87,10 @@ def filter_(dm):
 		# The special characters have been stripped in the EDF file, but not from
 		# the ratings data. We assert that we have exactly one match between the
 		# ascii-fied and original word to make sure that we map things correctly.
-		rating = ratings.ascii_word == row.word
+		# In addition, in the auditory experiment the special characters were
+		# converted to html hex notation. So we strip those characters.
+		word = ''.join([l for l in row.word if l.isalpha()])
+		rating = ratings.ascii_word == word
 		assert(len(rating) == 1)
 		row.rating_brightness = rating.rating_brightness[0]
 		row.rating_valence = rating.rating_valence[0]
@@ -82,6 +99,16 @@ def filter_(dm):
 
 
 def descriptives(dm):
+
+	"""
+	desc:
+		Provides basic descriptives of response times. These are printed
+		directly to the stdout.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
 
 	ops.keep_only(dm, cols=['type', 'rt'])
 	gm = ops.group(dm, by=[dm.type])

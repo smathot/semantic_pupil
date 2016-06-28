@@ -6,9 +6,15 @@ First, parse the ratings data by running:
 
 This will create a file called `ratings.csv`, which is used for the main analyses.
 
-Next, run the full analysis:
+Next, run the full analysis for the visual experiment:
 
-	python3 analyze-pupil.py
+	python3 analyze-pupil.py --auditory @full
+
+And for the auditory experiment:
+
+	python3 analyze-pupil.py --visual @full
+
+During the analysis, cache files are created. To start from scratch, pass the `--clear-cache` argument.
 
 Notes:
 
