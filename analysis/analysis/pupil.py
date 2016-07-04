@@ -178,9 +178,9 @@ def brightness_plot(dm, subplot=False):
 		plot.new()
 	dm_bright = dm.type == 'light'
 	dm_dark = dm.type == 'dark'
-	plot.trace(dm_bright.pupil, color=orange[1],
+	plot.trace(dm_bright.pupil, color=orange[1], downsample=DOWNSAMPLE,
 		label='Bright (N=%d)' % len(dm_bright))
-	plot.trace(dm_dark.pupil, color=blue[1],
+	plot.trace(dm_dark.pupil, color=blue[1], downsample=DOWNSAMPLE,
 		label='Dark (N=%d)' % len(dm_dark))
 	plt.legend(frameon=False)
 	if not subplot:

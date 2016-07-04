@@ -1,31 +1,18 @@
 ---
-title: "Embodiment as preparation: Pupillary responses to words that convey a sense of brightness or darkness"
+title: "Pupillary responses to words that convey a sense of brightness or darkness"
 author:
-  Sebastiaan Mathôt^1^\*, Jonathan grainger^1^, Kristof Strijkers^2^
+  Sebastiaan Mathôt^1^, Jonathan grainger^1^, Kristof Strijkers^2^
 affiliation:
   - ^1^ Aix-Marseille University, CNRS, LPC UMR 7290, Marseille, France
   - ^2^ Aix-Marseille University, CNRS, LPL UMR 7309, Aix-en-Provence, France
-  - \* Corresponding author
+correspondence:
+  - Aix-Marseille University, CNRS
+  - Laboratoire de Psychologie Cognitive, UMR 7290
+  - 3 Place Victor Hugo
+  - Centre St. Charles, Bâtiment 9, Case D
+  - 13331 Marseille
+  - France
 ---
-
-Category:
-
-Social sciences / Psychological and Cognitive Sciences
-
-Address for correspondence:
-
-Sebastiaan Mathôt, PhD  \
-Aix-Marseille Université / CNRS  \
-Laboratoire de Psychologie Cognitive  \
-3 Place Victor Hugo  \
-Centre St. Charles, Bâtiment 9, Case D  \
-13331 Marseille  \
-France
-
-<s.mathot@cogsci.nl>  \
-<http://www.cogsci.nl/smathot>
-
-~
 
 # Abstract
 
@@ -35,13 +22,11 @@ France
 
 ~
 
-# Significance statement
-
-%-- include: "md/significance.md" --%
-
-~
-
 %-- include: "introduction.md" --%
+
+# Methods
+
+%-- include: "methods.md" --%
 
 # Results
 
@@ -52,12 +37,6 @@ France
 # Discussion
 
 %-- include: "discussion.md" --%
-
-~
-
-# Methods
-
-%-- include: "methods.md" --%
 
 ~
 

@@ -35,3 +35,4 @@ PEAKWIN = 1000, 2000
 PUPILRANGE = .5, 2.5
 # Window length for statistical analyses
 WINLEN = 10
+DOWNSAMPLE = 10

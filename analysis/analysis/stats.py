@@ -54,7 +54,7 @@ def annotated_plot(dm):
 		print('Alpha %.5f (%.2f)' % (a, series.reduce_(threshold)[1]))
 		plot.threshold(threshold[1], color=color, linewidth=1)
 	dm_dark = dm.type == 'ctrl'
-	plot.trace(dm_dark.pupil, color=grey[3],
+	plot.trace(dm_dark.pupil, color=grey[3], downsample=DOWNSAMPLE,
 		label='Neutral (N=%d)' % len(dm_dark))
 	pupil.brightness_plot(dm, subplot=True)
 	plt.xticks(range(0, 3001, 500), np.linspace(0,3,7))
@@ -63,7 +63,7 @@ def annotated_plot(dm):
 	plot.save('annotated_plot')
 
 
-def trace_lmer_simple(dm, dv='type'):
+def trace_lmer_simple(dm, iv='type'):
 
 	"""
 	desc:
@@ -76,7 +76,7 @@ def trace_lmer_simple(dm, dv='type'):
 			type: DataMatrix
 
 	keywords:
-		dv:		The dependent variable.
+		iv:		The independent variable.
 
 	returns:
 		desc:	A DataMatrix with statistical results.
@@ -84,8 +84,8 @@ def trace_lmer_simple(dm, dv='type'):
 
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	lm = lme4.lmer_series(dm,
-		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
-		% {'dv' : dv}, winlen=WINLEN, cacheid='lmer_series_simple.%s' % dv)
+		'pupil ~ (%(iv)s) + (1+%(iv)s|subject_nr) + (1+%(iv)s|word)' \
+		% {'iv' : iv}, winlen=WINLEN, cacheid='lmer_series_simple.%s' % iv)
 	return lm
 
 
@@ -97,7 +97,7 @@ def trace_lmer_ratings(dm, dv='rating_brightness'):
 	print(dm.type.unique, dv)
 	lm = lme4.lmer_series(dm,
 		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
-		% {'dv' : dv}, winlen=10, cacheid='lmer_series_ratings.%s' % dv)
+		% {'dv' : dv}, winlen=WINLEN, cacheid='lmer_series_ratings.%s' % dv)
 	threshold = series.threshold(lm.p,
 		lambda p: p > 0 and p<.05, min_length=200)
 	print('Alpha .05 (%.2f)' % series.reduce_(threshold)[1])
@@ -111,11 +111,13 @@ def model_comparison(dm):
 
 	"""TODO"""
 
+	global WINLEN
 	plot.new(size=(8,6))
 	colors = brightcolors[:]
-	for dv in ['rating_brightness', 'rating_valence', 'rating_intensity']:
-		lm = trace_lmer_simple(dm, dv)
-		plt.plot(np.abs(lm.t[1]), color=colors.pop(), label=dv)
+	WINLEN = 200
+	for iv in ['rating_brightness', 'rating_valence', 'rating_intensity']:
+		lm = trace_lmer_simple(dm, iv)
+		plt.plot(np.abs(lm.t[1]), color=colors.pop(), label=iv)
 	plt.legend()
 	plt.xticks(range(0, 3001, 500), np.linspace(0,3,7))
 	plt.xlabel('Time from word onset (s)')
