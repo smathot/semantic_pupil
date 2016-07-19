@@ -111,10 +111,8 @@ def model_comparison(dm):
 
 	"""TODO"""
 
-	global WINLEN
 	plot.new(size=(8,6))
 	colors = brightcolors[:]
-	WINLEN = 200
 	for iv in ['rating_brightness', 'rating_valence', 'rating_intensity']:
 		lm = trace_lmer_simple(dm, iv)
 		plt.plot(np.abs(lm.t[1]), color=colors.pop(), label=iv)
