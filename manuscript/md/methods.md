@@ -12,7 +12,7 @@ In the end, we had a stimulus set in which darkness- and brightness-conveying wo
 
 ## Pupillometry experiments
 
-Thirty naive observers (age range: 18-54 y; 21 women) participated in the visual experiment. Thirty other naive observers participated in the auditory experiment. Participants reported normal or corrected vision, provided written informed consent prior to the experiment, and received €6 for their participation. The experiment was conducted with approval of the *Comité d'éthique de l'Université d'Aix-Marseille* (Ref.: 2014-12-03-09).
+Thirty naive observers (age range: 18-54 y; 21 women) participated in the visual experiment. Thirty other naive observers participated in the auditory experiment. We used two to three times as many participants per experiment as in previous studies on the pupillary light response [N=30 vs N=5-15; e.g. @Binda2013Bright;@Mathôt2013Plos], because we expected the effect of embodied language on pupil size to be relatively small. Participants reported normal or corrected vision, provided written informed consent prior to the experiment, and received €6 for their participation. The experiment was conducted with approval of the *Comité d'éthique de l'Université d'Aix-Marseille* (Ref.: 2014-12-03-09).
 
 Pupil size was recorded monocularly with an EyeLink 1000 (SR Research, Missisauga, Ontario, Canada), a video-based eye tracker sampling at 1000 Hz. Stimuli were presented on a 21" ViewSonic p227f CRT monitor (1024 x 768 px, 150 Hz). Testing took place in a dimly lit room. The experiment was implemented with OpenSesame [@MathôtSchreijTheeuwes2012] using the Expyriment [@KrauseLindemann2014] backend.
 
