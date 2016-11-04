@@ -37,8 +37,14 @@ elif '--visual' in sys.argv:
 	_cache.cachefolder = '.cache-visual'
 	plot.plotfolder = 'plot-visual'
 	pupil.OUTPUT_FOLDER = 'output-visual'
+elif '--control' in sys.argv:
+	constants.EXP == 'visual'
+	folder = 'data-pupil-asc/control'
+	_cache.cachefolder = '.cache-control'
+	plot.plotfolder = 'plot-control'
+	pupil.OUTPUT_FOLDER = 'output-control'	
 else:
-	raise Exception('Please specify --auditory or --visual')
+	raise Exception('Please specify --auditory, --visual, or --control')
 _cache.cache_initialized = False
 
 dm = dispatch.waterfall(

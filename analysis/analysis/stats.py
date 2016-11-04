@@ -54,7 +54,7 @@ def annotated_plot(dm):
 		print('Alpha %.5f (%.2f)' % (a, series.reduce_(threshold)[1]))
 		plot.threshold(threshold[1], color=color, linewidth=1)
 	dm_dark = dm.type == 'ctrl'
-	plot.trace(dm_dark.pupil, color=grey[3], downsample=DOWNSAMPLE,
+	plot.trace(dm_dark.pupil, color=grey[3],
 		label='Neutral (N=%d)' % len(dm_dark))
 	pupil.brightness_plot(dm, subplot=True)
 	plt.xticks(range(0, 3001, 500), np.linspace(0,3,7))
@@ -84,7 +84,7 @@ def trace_lmer_simple(dm, iv='type'):
 
 	dm = (dm.type == 'light') | (dm.type == 'dark')
 	lm = lme4.lmer_series(dm,
-		'pupil ~ (%(iv)s) + (1+%(iv)s|subject_nr) + (1+%(iv)s|word)' \
+		'pupil ~ (%(iv)s) + (1+%(iv)s|subject_nr)' \
 		% {'iv' : iv}, winlen=WINLEN, cacheid='lmer_series_simple.%s' % iv)
 	return lm
 
@@ -96,7 +96,7 @@ def trace_lmer_ratings(dm, dv='rating_brightness'):
 	dm = dm.type != 'animal'
 	print(dm.type.unique, dv)
 	lm = lme4.lmer_series(dm,
-		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr) + (1+%(dv)s|word)' \
+		'pupil ~ (%(dv)s) + (1+%(dv)s|subject_nr)' \
 		% {'dv' : dv}, winlen=WINLEN, cacheid='lmer_series_ratings.%s' % dv)
 	threshold = series.threshold(lm.p,
 		lambda p: p > 0 and p<.05, min_length=200)
@@ -121,3 +121,29 @@ def model_comparison(dm):
 	plt.xlabel('Time from word onset (s)')
 	plt.ylabel('|t|')
 	plot.save('model-comparison')
+	
+	
+def brightness_intensity(dm):
+
+	"""TODO"""
+
+	lm = lme4.lmer_series((dm.type == 'light') | (dm.type == 'dark'),
+		'pupil ~ type + rating_intensity + (1+type|subject_nr)',
+		winlen=WINLEN, cacheid='lmer_series_type_intensity')
+		
+	threshold = series.threshold(lm.t, lambda t: abs(t) > 1.96, min_length=200)
+	print('threshold', threshold > 0)
+		
+	plot.new(size=(8,6))
+	plt.plot(threshold)
+	plt.plot(lm.t[1], label='Type')
+	plt.plot(lm.t[2], label='Intensity')
+	plot.save('model-type-intensity')
+	
+	lm = lme4.lmer_series(dm.type != 'animal',
+		'pupil ~ rating_brightness + rating_intensity + (1+rating_brightness|subject_nr)',
+		winlen=WINLEN, cacheid='lmer_series_brightness_intensity')
+	plot.new(size=(8,6))
+	plt.plot(lm.t[1], label='Brightness')
+	plt.plot(lm.t[2], label='Intensity')
+	plot.save('model-brightness-intensity')

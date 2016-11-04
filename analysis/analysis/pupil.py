@@ -47,8 +47,10 @@ def preprocess(dm):
 		row.pupilmin = min(row.pupil)
 		row.pupilmax = max(row.pupil)
 	plot.new()
-	plot.histogram(dm.pupilmin, bins=100, range=(0, 5), color=red[1], alpha=.5)
-	plot.histogram(dm.pupilmax, bins=100, range=(0, 5), color=green[1], alpha=.5)
+	# plot.histogram(dm.pupilmin, bins=100, range=(0, 5), color=red[1], alpha=.5)
+	# plot.histogram(dm.pupilmax, bins=100, range=(0, 5), color=green[1], alpha=.5)
+	plt.hist(dm.pupilmin, bins=100, range=(0, 5), color=red[1], alpha=.5)
+	plt.hist(dm.pupilmax, bins=100, range=(0, 5), color=green[1], alpha=.5)
 	l0 = len(dm)
 	dm = (dm.pupilmin > PUPILRANGE[0]) & (dm.pupilmax < PUPILRANGE[1])
 	l1 = len(dm)
@@ -178,13 +180,41 @@ def brightness_plot(dm, subplot=False):
 		plot.new()
 	dm_bright = dm.type == 'light'
 	dm_dark = dm.type == 'dark'
-	plot.trace(dm_bright.pupil, color=orange[1], downsample=DOWNSAMPLE,
+	plot.trace(dm_bright.pupil, color=orange[1],
 		label='Bright (N=%d)' % len(dm_bright))
-	plot.trace(dm_dark.pupil, color=blue[1], downsample=DOWNSAMPLE,
+	plot.trace(dm_dark.pupil, color=blue[1],
 		label='Dark (N=%d)' % len(dm_dark))
 	plt.legend(frameon=False)
 	if not subplot:
-		plot.save('brighness_plot')
+		plot.save('brightness_plot')
+		
+		
+def valence_plot(dm, subplot=False):
+
+	"""
+	desc:
+		Plots mean pupil size separately for positive and negative trials over
+		time.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		subplot:	Indicates whether a new plot should be created, or not.
+	"""
+
+	if not subplot:
+		plot.new()
+	dm_pos = dm.category == 'positive'
+	dm_neg = dm.category == 'negative'
+	plot.trace(dm_pos.pupil, color=green[1],
+		label='Positive (N=%d)' % len(dm_pos))
+	plot.trace(dm_neg.pupil, color=red[1],
+		label='Negative (N=%d)' % len(dm_neg))
+	plt.legend(frameon=False)
+	if not subplot:
+		plot.save('valence_plot')
 
 
 def subject_diff_traces(dm):

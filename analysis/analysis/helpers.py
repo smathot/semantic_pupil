@@ -21,6 +21,7 @@ from datamatrix import io, IntColumn, FloatColumn, cached
 from datamatrix import operations as ops
 from datamatrix import series
 import numpy as np
+from analysis import constants
 
 
 @cached
@@ -41,15 +42,18 @@ def filter_(dm):
 	"""
 
 	# Keep only relevant columns to speed up processing
-	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target',
+	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target', 'category',
 		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
-		'correct_keyboard_response'])
+		'correct_keyboard_response', 'practice'])
 	dm.rename('response_time_keyboard_response', 'rt')
 	dm.rename('correct_keyboard_response', 'correct')
 	# Remove practice trials, and the misspelled word
 	print('Filtering')
-	dm = dm.trialid >= 10
-	dm = dm.word != 'trbrant'
+	if constants.EXP == 'control':
+		dm = dm.practice == 'no'
+	else:
+		dm = dm.trialid >= 10
+		dm = dm.word != 'trbrant'
 	# Show all words and trialcounts
 	for word in dm.word.unique:
 		print('%s\t%d' % (word, len(dm.word == word)))
@@ -59,8 +63,14 @@ def filter_(dm):
 	n_word = len(dm.word.unique)
 	print('N(word) = %d Errors(Total) = %d (%.2f %%) of %d' \
 		% (n_word, errors, error_percent, len(dm)))
-	for type_ in ('light', 'dark', 'ctrl', 'animal'):
-		dm_ = dm.type == type_
+	categories = ('positive', 'negative', 'animal') \
+		if constants.EXP == 'control' else ('light', 'dark', 'ctrl', 'animal')
+	print(dm.category.unique)
+	for type_ in categories:
+		if constants.EXP == 'control':
+			dm_ = dm.category == type_
+		else:
+			dm_ = dm.type == type_
 		total = len(dm_)
 		errors = len((dm_) & (dm.correct == 0))
 		error_percent = 100. * errors / total
@@ -68,6 +78,8 @@ def filter_(dm):
 		print('N(word) = %d, Errors(%s) = %d (%.2f %%) of %d' \
 			% (n_word, type_, errors, error_percent, total))
 	dm = dm.correct == 1
+	if constants.EXP == 'control':
+		return dm
 	# Add new columns
 	print('Adding columns')
 	dm.rating_brightness = FloatColumn
