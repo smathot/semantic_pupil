@@ -21,6 +21,7 @@ along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 import os
 from datamatrix import io, DataMatrix, FloatColumn, plot
 import numpy as np
+from scipy.stats import ttest_ind
 
 # First merge all ratings into a single DataMatrix
 dm = None
@@ -67,3 +68,11 @@ print(plot.regress(rm.rating_brightness, rm.rating_valence))
 plot.save('regress.brightness.valence')
 print(plot.regress(rm.rating_brightness, rm.rating_intensity))
 plot.save('regress.brightness.intensity')
+
+# Determine whether subjective brightness matches our categories
+bright = (rm._type == 'light').rating_brightness
+dark = (rm._type == 'dark').rating_brightness
+print('Bright: M = %.2f (SD=%.2f)' % (bright.mean, bright.std))
+print('Dark: M = %.2f (SD=%.2f)' % (dark.mean, dark.std))
+t, p = ttest_ind(bright, dark)
+print('t = %.2f, p = %.4f' % (t, p))

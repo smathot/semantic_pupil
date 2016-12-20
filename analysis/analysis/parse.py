@@ -18,14 +18,13 @@ along with SWM_PUPIL.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import warnings
+import gc
 from eyelinkparser import EyeLinkParser, sample
 
 class CustomParser(EyeLinkParser):
 
 	def parse_phase(self, l):
 
-		# Only store the sample_stim and wmdelay phases, and downsample the
-		# samples to 100 Hz.
 		if self.current_phase in ('target', 'fixation') or \
 			'target' in l or 'fixation' in l:
 			EyeLinkParser.parse_phase(self, l)
@@ -36,6 +35,8 @@ class CustomParser(EyeLinkParser):
 			warnings.warn('Very long trace, truncating to 4000: %s (%d)' \
 				% (self.current_phase, len(self.ptrace)))
 			self.ptrace = self.ptrace[:4000]
+			self.ttrace = self.ttrace[:4000]
 			self.xtrace = self.xtrace[:4000]
 			self.ytrace = self.ytrace[:4000]
 		EyeLinkParser.end_phase(self)
+		gc.collect()

@@ -43,8 +43,14 @@ elif '--control' in sys.argv:
 	_cache.cachefolder = '.cache-control'
 	plot.plotfolder = 'plot-control'
 	pupil.OUTPUT_FOLDER = 'output-control'	
+elif '--dutch' in sys.argv:
+	constants.EXP == 'dutch'
+	folder = 'data-pupil-asc/dutch'
+	_cache.cachefolder = '.cache-dutch'
+	plot.plotfolder = 'plot-dutch'
+	pupil.OUTPUT_FOLDER = 'output-dutch'	
 else:
-	raise Exception('Please specify --auditory, --visual, or --control')
+	raise Exception('Please specify --auditory, --visual, --control, or --dutch')
 _cache.cache_initialized = False
 
 dm = dispatch.waterfall(
@@ -55,7 +61,7 @@ dm = dispatch.waterfall(
 		(helpers.filter_, 'data-filtered', {}),
 		(pupil.preprocess, 'data-preprocessed', {}),
 	)
-
+	
 dispatch.dispatch(dm,
 	modules=[
 		helpers,

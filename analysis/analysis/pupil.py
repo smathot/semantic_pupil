@@ -153,8 +153,12 @@ def effect_se(dm, start=0, end=None):
 			ndarrray
 	"""
 
-	dm_bright = dm.type == 'light'
-	dm_dark = dm.type == 'dark'
+	if EXP == 'control':
+		dm_bright = dm.category == 'positive'
+		dm_dark = dm.category == 'negative'
+	else:
+		dm_bright = dm.type == 'light'
+		dm_dark = dm.type == 'dark'
 	bright = series.reduce_(series.window(dm_bright.pupil, start=start, end=end))
 	dark = series.reduce_(series.window(dm_dark.pupil, start=start, end=end))
 	diff = dark.mean - bright.mean
@@ -293,7 +297,10 @@ def word_summary(dm):
 			type: DataMatrix
 	"""
 
-	dm = (dm.type == 'light') | (dm.type == 'dark')
+	if EXP == 'control':
+		dm = (dm.category == 'positive') | (dm.category == 'negative')
+	else:
+		dm = (dm.type == 'light') | (dm.type == 'dark')
 	x = np.arange(dm.pupil.depth)
 	sm = DataMatrix(length=len(dm.word.unique))
 	sm.word = 0
@@ -305,7 +312,10 @@ def word_summary(dm):
 	for i, w in enumerate(dm.word.unique):
 		_dm = dm.word == w
 		sm.word[i] = w
-		sm.type[i] = (dm.word == w).type[0]
+		if EXP == 'control':			
+			sm.type[i] = (dm.word == w).category[0]
+		else:
+			sm.type[i] = (dm.word == w).type[0]
 		sm.pupil_win[i], sm.pupil_win_se[i] = size_se(_dm,
 			PEAKWIN[0], PEAKWIN[1])
 		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)

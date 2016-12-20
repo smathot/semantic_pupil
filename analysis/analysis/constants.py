@@ -27,9 +27,12 @@ elif '--visual' in sys.argv:
 	RT = 790
 elif '--control' in sys.argv:
 	EXP = 'control'
+	RT = 790
+elif '--dutch' in sys.argv:
+	EXP = 'dutch'
 	RT = 1000 # TODO
 else:
-	raise Exception('Please specify --auditory, --visual, or --control')
+	raise Exception('Please specify --auditory, --visual, --control, --dutch')
 
 # Epoch-of-interest for the subject and word summaries.
 PEAKWIN = 1000, 2000

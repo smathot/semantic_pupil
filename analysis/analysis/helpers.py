@@ -49,7 +49,7 @@ def filter_(dm):
 	dm.rename('correct_keyboard_response', 'correct')
 	# Remove practice trials, and the misspelled word
 	print('Filtering')
-	if constants.EXP == 'control':
+	if constants.EXP in ('control', 'dutch'):
 		dm = dm.practice == 'no'
 	else:
 		dm = dm.trialid >= 10
@@ -63,9 +63,21 @@ def filter_(dm):
 	n_word = len(dm.word.unique)
 	print('N(word) = %d Errors(Total) = %d (%.2f %%) of %d' \
 		% (n_word, errors, error_percent, len(dm)))
-	categories = ('positive', 'negative', 'animal') \
-		if constants.EXP == 'control' else ('light', 'dark', 'ctrl', 'animal')
-	print(dm.category.unique)
+	if constants.EXP == 'control':
+		categories = ('positive', 'negative', 'animal')
+	elif constants.EXP == 'dutch':
+		# Remap the slightly different coding for the Dutch experiment
+		categories = 'light', 'dark', 'ctrl', 'animal'		
+		dm.type = ''
+		for row in dm:
+			if row.category == 'control':
+				row.type = 'ctrl'
+			else:
+				row.type = row.category
+	elif constants.EXP in ('visual', 'auditory'):
+		categories = 'light', 'dark', 'ctrl', 'animal'
+	else:
+		assert(False)
 	for type_ in categories:
 		if constants.EXP == 'control':
 			dm_ = dm.category == type_
@@ -75,10 +87,10 @@ def filter_(dm):
 		errors = len((dm_) & (dm.correct == 0))
 		error_percent = 100. * errors / total
 		n_word = len(dm_.word.unique)
-		print('N(word) = %d, Errors(%s) = %d (%.2f %%) of %d' \
-			% (n_word, type_, errors, error_percent, total))
+		print('N(word, %s) = %d, Errors(%s) = %d (%.2f %%) of %d' \
+			% (type_, n_word, type_, errors, error_percent, total))
 	dm = dm.correct == 1
-	if constants.EXP == 'control':
+	if constants.EXP in ('control', 'dutch'):
 		return dm
 	# Add new columns
 	print('Adding columns')
@@ -121,9 +133,13 @@ def descriptives(dm):
 		dm:
 			type: DataMatrix
 	"""
-
-	ops.keep_only(dm, cols=['type', 'rt'])
-	gm = ops.group(dm, by=[dm.type])
+	
+	if constants.EXP == 'control':
+		ops.keep_only(dm, cols=['category', 'rt'])
+		gm = ops.group(dm, by=[dm.category])
+	else:
+		ops.keep_only(dm, cols=['type', 'rt'])
+		gm = ops.group(dm, by=[dm.type])
 	gm.mean_rt = series.reduce_(gm.rt)
 	gm.se_rt = series.reduce_(gm.rt, lambda x: np.nanstd(x)/np.sqrt(len(x)))
 	gm.n = series.reduce_(gm.rt, lambda x: np.sum(~np.isnan(x)))
