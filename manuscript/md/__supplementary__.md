@@ -1,18 +1,16 @@
 ---
 title: "Pupillary responses to words that convey a sense of brightness or darkness (Supplementary Information)"
 author:
-  Sebastiaan Mathôt^1^\*, Jonathan grainger^1^, Kristof Strijkers^2^
+  Sebastiaan Mathôt^1,2^\*, Jonathan grainger^2^, Kristof Strijkers^3^
 affiliation:
+  - ^1^ University of Groningen, Department of Experimental Psychology, Groningen, Netherlands
   - ^1^ Aix-Marseille University, CNRS, LPC UMR 7290, Marseille, France
   - ^2^ Aix-Marseille University, CNRS, LPL UMR 7309, Aix-en-Provence, France
   - \* Corresponding author
 correspondence:
-  - Aix-Marseille University, CNRS
-  - Laboratoire de Psychologie Cognitive, UMR 7290
-  - 3 Place Victor Hugo
-  - Centre St. Charles, Bâtiment 9, Case D
-  - 13331 Marseille
-  - France
+  - Grote Kruisstraat 2/1
+  - 9712 TS Groningen
+  - Netherlands
 ---
 
 # Robustness checks
