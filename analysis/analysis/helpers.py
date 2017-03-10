@@ -44,7 +44,7 @@ def filter_(dm):
 	# Keep only relevant columns to speed up processing
 	ops.keep_only(dm, ['trialid', 'word', 'type', 'ptrace_target', 'category',
 		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
-		'correct_keyboard_response', 'practice'])
+		'correct_keyboard_response', 'practice', 'valence'])
 	dm.rename('response_time_keyboard_response', 'rt')
 	dm.rename('correct_keyboard_response', 'correct')
 	# Remove practice trials, and the misspelled word

@@ -219,6 +219,27 @@ def valence_plot(dm, subplot=False):
 	plt.legend(frameon=False)
 	if not subplot:
 		plot.save('valence_plot')
+		
+		
+def intensity_plot(dm, subplot=False):
+	
+	if not subplot:
+		plot.new()
+	dm = dm.type != 'animal'
+	dm.intensity = np.abs(dm.valence - 3)			
+	dm_lo, dm_med, dm_hi = operations.bin_split(dm.intensity, 3)
+	plot.trace(dm_lo.pupil, color=blue[1],
+		label='Low intensity (N=%d)' % len(dm_lo))
+	plot.trace(dm_med.pupil, color=yellow[-1],
+		label='Medium intensity (N=%d)' % len(dm_med))
+	plot.trace(dm_hi.pupil, color=red[1],
+		label='High intensity (N=%d)' % len(dm_hi))
+	plt.xticks([0,1000,2000,3000], [0,1,2,3])
+	plt.xlabel('Time since word onset(s)')
+	plt.ylabel('Proportional pupil-size change')
+	plt.legend(frameon=False)
+	if not subplot:
+		plot.save('intensity_plot')	
 
 
 def subject_diff_traces(dm):
@@ -325,6 +346,8 @@ def word_summary(dm):
 	plot.new(size=(4,3))
 	dx = 0
 	for color, type_ in ((orange[1], 'light'), (blue[1],'dark')):
+		if EXP == 'control':			
+			type_ = 'positive'  if type_ == 'light' else 'negative'
 		sm_ = sm.type == type_
 		x = np.arange(len(sm_))
 		plt.plot(sm_.pupil_win, 'o-', color=color)
@@ -339,3 +362,37 @@ def word_summary(dm):
 	plt.xlabel('Word')
 	plt.xticks([])
 	plot.save('word_summary')
+
+
+def valence_summary(dm):
+
+	"""
+	desc:
+		Plots pupil size by word valence or intensity.
+
+	arguments:
+		dm:
+			type: DataMatrix
+	"""
+
+
+	assert(EXP == 'control')
+	dm = dm.category != 'animal'
+	sm = DataMatrix(length=len(dm.word.unique))
+	sm.word = 0
+	sm.valence = 0
+	sm.pupil_win = FloatColumn
+	sm.pupil_win_se = FloatColumn
+	sm.pupil_full = FloatColumn
+	sm.pupil_full_se = FloatColumn
+	for i, w in enumerate(dm.word.unique):
+		_dm = dm.word == w
+		sm.word[i] = w
+		sm.valence[i] = _dm[0].valence
+		sm.pupil_win[i], sm.pupil_win_se[i] = size_se(_dm, 1500, 3000)
+		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)		
+	sm.intensity = np.abs(sm.valence-3)
+	sm = operations.sort(sm, by=sm.intensity)	
+	print(sm)
+	plt.plot(sm.valence, sm.pupil_full, 'o')
+	plt.show()

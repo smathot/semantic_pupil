@@ -55,7 +55,7 @@ def annotated_plot(dm):
 		plot.threshold(threshold[1], color=color, linewidth=1)
 	dm_ctrl = dm.type == 'ctrl'
 	plot.trace(dm_ctrl.pupil, color=grey[3],
-		label='Neutral (N=%d)' % len(dm_dark))
+		label='Neutral (N=%d)' % len(dm_ctrl))
 	pupil.brightness_plot(dm, subplot=True)
 	plt.xticks(range(0, 3001, 500), np.linspace(0,3,7))
 	plt.xlabel('Time since word onset (s)')
@@ -145,6 +145,32 @@ def trace_lmer_valence(dm):
 	lm = lme4.lmer_series(dm, 'pupil ~ category + (1+category|subject_nr)',
 		winlen=WINLEN, cacheid='lmer_series_valence.category')
 	return lm
+	
+	
+def trace_lmer_intensity(dm):
+
+	"""
+	desc:
+		Test the effect of emotional intensity.
+
+	arguments:
+		dm:
+			type: DataMatrix
+
+	keywords:
+		iv:		The independent variable.
+
+	returns:
+		desc:	A DataMatrix with statistical results.
+	"""
+
+	dm = dm.type != 'animal'
+	dm.intensity = np.abs(dm.valence - 3)	
+	lm = lme4.lmer_series(dm, 'pupil ~ intensity + (1+intensity|subject_nr)',
+		winlen=WINLEN, cacheid='lmer_series_intensity')
+	plt.plot(lm.t[1])
+	plt.show()
+	return dm
 
 
 def trace_lmer_ratings(dm, dv='rating_brightness'):
@@ -190,15 +216,12 @@ def brightness_intensity(dm):
 		winlen=WINLEN, cacheid='lmer_series_type_intensity')
 		
 	threshold = series.threshold(lm.t, lambda t: abs(t) > 1.96, min_length=200)
-	# print('threshold', threshold > 0)
-	# print(threshold)	
 	plot.new(size=(8,6))
 	plt.plot(threshold[1])
 	plt.plot(lm.t[1], label='Type')
 	plt.plot(lm.t[2], label='Intensity')
 	plt.legend()
-	plot.save('model-type-intensity')
-	
+	plot.save('model-type-intensity')	
 	lm = lme4.lmer_series(dm.type != 'animal',
 		'pupil ~ rating_brightness + rating_intensity + (1+rating_brightness|subject_nr)',
 		winlen=WINLEN, cacheid='lmer_series_brightness_intensity')
