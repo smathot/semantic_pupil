@@ -9,7 +9,7 @@ Copyright 2015-2017 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
 
 This repository contains materials to accompany the following manuscript:
 
-Mathôt, S., Strijkers, K., & Grainger, J. (in press). Pupillary responses to words that convey a sense of brightness or darkness, *Psychological Science*.
+Mathôt, S., Strijkers, K., & Grainger, J. (in press). Pupillary responses to words that convey a sense of brightness or darkness. *Psychological Science*.
 
 
 ## Running the experiments
@@ -30,7 +30,7 @@ Analysis scripts and participant data are placed in the `analysis` subfolder.
 
 ## IPython notebook
 
-For a quick example of how the analysis words, see this IPython notebook:
+For a quick example of how the analysis works, see this IPython notebook:
 
 - [analysis/basic-analysis.ipynb](analysis/basic-analysis.ipynb)
 
