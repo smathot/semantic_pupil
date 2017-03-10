@@ -4,10 +4,13 @@ author:
   Sebastiaan Mathôt^1,2^\*, Jonathan grainger^2^, Kristof Strijkers^3^
 affiliation:
   - ^1^ University of Groningen, Department of Experimental Psychology, Groningen, Netherlands
-  - ^1^ Aix-Marseille University, CNRS, LPC UMR 7290, Marseille, France
-  - ^2^ Aix-Marseille University, CNRS, LPL UMR 7309, Aix-en-Provence, France
+  - ^2^ Aix-Marseille University, CNRS, LPC UMR 7290, Marseille, France
+  - ^3^ Aix-Marseille University, CNRS, LPL UMR 7309, Aix-en-Provence, France
   - \* Corresponding author
 correspondence:
+  - Sebastiaan Mathôt
+  - Department of Experimental Psychology
+  - University of Groningen
   - Grote Kruisstraat 2/1
   - 9712 TS Groningen
   - Netherlands
