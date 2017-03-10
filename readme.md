@@ -26,7 +26,15 @@ All experiments were conducted with [OpenSesame](http://osdoc.cogsci.nl/), but n
 
 # Running the analysis
 
-Analysis scripts and participant data are placed in the `analysis subfolder`.
+Analysis scripts and participant data are placed in the `analysis` subfolder.
+
+## IPython notebook
+
+For a quick example of how the analysis words, see this IPython notebook:
+
+- [analysis/basic-analysis.ipynb](analysis/basic-analysis.ipynb)
+
+## Full analysis pathway
 
 The analysis requires the standard numpy/ scipy stack, and [DataMatrix](https://github.com/smathot/python-datamatrix) and [EyelinkParser](https://github.com/smathot/python-eyelinkparser).
 

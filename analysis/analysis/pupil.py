@@ -265,7 +265,7 @@ def subject_diff_traces(dm):
 	plot.save('subject_diff_trace')
 
 
-def subject_summary(dm):
+def subject_summary(dm, save=True):
 
 	"""
 	desc:
@@ -292,7 +292,8 @@ def subject_summary(dm):
 			PEAKWIN[0], PEAKWIN[1])
 		sm.effect_full[i], sm.effect_full_se[i] = effect_se(_dm)
 	sm = operations.sort(sm, by=sm.effect_win)
-	plot.new(size=(4,3))
+	if save:
+		plot.new(size=(4,3))
 	plt.axhline(0, color='black')
 	plt.plot(sm.effect_win, 'o-', color=green[-1])
 	plt.errorbar(x, sm.effect_win, yerr=sm.effect_win_se, linestyle='',
@@ -301,11 +302,12 @@ def subject_summary(dm):
 	plt.ylabel('Pupil-size difference (normalized)')
 	plt.xlabel('Participant')
 	plt.xticks([])
-	plot.save('subject_summary')
-	io.writetxt(sm, '%s/subject_summary.csv' % OUTPUT_FOLDER)
+	if save:
+		plot.save('subject_summary')
+		io.writetxt(sm, '%s/subject_summary.csv' % OUTPUT_FOLDER)
 
 
-def word_summary(dm):
+def word_summary(dm, save=True):
 
 	"""
 	desc:
@@ -341,9 +343,9 @@ def word_summary(dm):
 			PEAKWIN[0], PEAKWIN[1])
 		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)
 	sm = operations.sort(sm, sm.pupil_win)
-	io.writetxt(sm, '%s/word_summary.csv' % OUTPUT_FOLDER)
-
-	plot.new(size=(4,3))
+	if save:
+		io.writetxt(sm, '%s/word_summary.csv' % OUTPUT_FOLDER)
+		plot.new(size=(4,3))
 	dx = 0
 	for color, type_ in ((orange[1], 'light'), (blue[1],'dark')):
 		if EXP == 'control':			
@@ -361,7 +363,8 @@ def word_summary(dm):
 	plt.ylabel('Pupil size (normalized)')
 	plt.xlabel('Word')
 	plt.xticks([])
-	plot.save('word_summary')
+	if save:
+		plot.save('word_summary')
 
 
 def valence_summary(dm):
