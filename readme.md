@@ -5,6 +5,15 @@ Copyright 2015-2017 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
 - <s.mathot@cogsci.nl>
 - <http://www.cogsci.nl/smathot>
 
+# Table of contents
+
+- About this repository
+- Running the experiments
+- Participant data
+- Running the analysis
+- License
+
+
 # About this repository
 
 This repository contains materials to accompany the following manuscript:
@@ -12,7 +21,7 @@ This repository contains materials to accompany the following manuscript:
 Mathôt, S., Strijkers, K., & Grainger, J. (in press). Pupillary responses to words that convey a sense of brightness or darkness. *Psychological Science*.
 
 
-## Running the experiments
+# Running the experiments
 
 The experiments are placed in the `experiments` subfoler.
 
@@ -24,7 +33,24 @@ All experiments were conducted with [OpenSesame](http://osdoc.cogsci.nl/), but n
 - valence-control experiment: 3.1.3
 
 
+# Participant data
+
+## Eye-tracking data
+
+The eye-tracking data for each experiment is located in `analysis/edf/[experiment name]`. This in `.edf` format, which is the format used by the EyeLink eye tracker.
+
+To run the analysis as described below, the `.edf` files need to be converted to `.asc` files using the `edf2asc` utility that can be downloaded for free from the SR Research forum (registration required)
+
+The `.asc` files then need to be placed in a folder called `analysis/data-pupil-asc/[experiment name]`. This folder needs to be created.
+
+## Ratings data
+
+The ratings data is located in `analysis/data-ratings`. This in standard comma-separated values (`.csv`) format.
+
+
 # Running the analysis
+
+Before analyzing the data, the eye-tracking data needs to be converted as described above.
 
 Analysis scripts and participant data are placed in the `analysis` subfolder.
 
