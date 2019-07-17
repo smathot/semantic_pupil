@@ -24,7 +24,6 @@ import numpy as np
 from analysis import constants
 
 
-@cached
 def filter_(dm):
 
 	"""
@@ -46,10 +45,11 @@ def filter_(dm):
 		'ptrace_fixation', 'subject_nr', 'response_time_keyboard_response',
 		'correct_keyboard_response', 'practice', 'valence'])
 	dm.rename('response_time_keyboard_response', 'rt')
-	dm.rename('correct_keyboard_response', 'correct')
+	if 'correct' not in dm:
+		dm.rename('correct_keyboard_response', 'correct')
 	# Remove practice trials, and the misspelled word
 	print('Filtering')
-	if constants.EXP in ('control', 'dutch'):
+	if constants.EXP in ('control', 'dutch', 'dutch-auditory'):
 		dm = dm.practice == 'no'
 	else:
 		dm = dm.trialid >= 10
@@ -65,9 +65,9 @@ def filter_(dm):
 		% (n_word, errors, error_percent, len(dm)))
 	if constants.EXP == 'control':
 		categories = ('positive', 'negative', 'animal')
-	elif constants.EXP == 'dutch':
+	elif constants.EXP in ('dutch', 'dutch-auditory'):
 		# Remap the slightly different coding for the Dutch experiment
-		categories = 'light', 'dark', 'ctrl', 'animal'		
+		categories = 'light', 'dark', 'ctrl', 'animal'
 		dm.type = ''
 		for row in dm:
 			if row.category == 'control':
@@ -90,7 +90,7 @@ def filter_(dm):
 		print('N(word, %s) = %d, Errors(%s) = %d (%.2f %%) of %d' \
 			% (type_, n_word, type_, errors, error_percent, total))
 	dm = dm.correct == 1
-	if constants.EXP in ('control', 'dutch'):
+	if constants.EXP in ('control', 'dutch', 'dutch-auditory'):
 		return dm
 	# Add new columns
 	print('Adding columns')
@@ -133,7 +133,7 @@ def descriptives(dm):
 		dm:
 			type: DataMatrix
 	"""
-	
+
 	if constants.EXP == 'control':
 		ops.keep_only(dm, cols=['category', 'rt'])
 		gm = ops.group(dm, by=[dm.category])

@@ -29,7 +29,7 @@ class CustomParser(EyeLinkParser):
 			'target' in l or 'fixation' in l:
 			EyeLinkParser.parse_phase(self, l)
 
-	def end_phase(self):
+	def end_phase(self, l):
 
 		if len(self.ptrace) > 4000:
 			warnings.warn('Very long trace, truncating to 4000: %s (%d)' \
@@ -38,5 +38,5 @@ class CustomParser(EyeLinkParser):
 			self.ttrace = self.ttrace[:4000]
 			self.xtrace = self.xtrace[:4000]
 			self.ytrace = self.ytrace[:4000]
-		EyeLinkParser.end_phase(self)
+		EyeLinkParser.end_phase(self, l)
 		gc.collect()

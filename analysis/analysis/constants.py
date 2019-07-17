@@ -18,6 +18,7 @@ along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import sys
+import warnings
 
 if '--auditory' in sys.argv:
 	EXP = 'auditory'
@@ -31,6 +32,11 @@ elif '--control' in sys.argv:
 elif '--dutch' in sys.argv:
 	EXP = 'dutch'
 	RT = 1000 # TODO
+	warnings.warn('RT is undefined')
+elif '--dutch-auditory' in sys.argv:
+	EXP = 'dutch-auditory'
+	RT = 1000 # TODO
+	warnings.warn('RT is undefined')
 else:
 	raise Exception('Please specify --auditory, --visual, --control, --dutch')
 
@@ -40,5 +46,5 @@ PEAKWIN = 1000, 2000
 # pupil sizes. Trials where pupil size exceeds these values are discarded.
 PUPILRANGE = .5, 2.5
 # Window length for statistical analyses
-WINLEN = 10
+WINLEN = 100
 DOWNSAMPLE = 10

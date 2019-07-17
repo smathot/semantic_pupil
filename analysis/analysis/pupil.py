@@ -18,16 +18,13 @@ along with P0005.1.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from analysis.constants import *
-from datamatrix import cached, DataMatrix, io, operations, series, FloatColumn
 from datamatrix.colors.tango import *
+from datamatrix import cached, DataMatrix, io, operations, series, FloatColumn
 from datamatrix import plot
 from matplotlib import pyplot as plt
-from scipy.stats import nanmedian
 import numpy as np
-import os
 
 
-@cached
 def preprocess(dm):
 
 	"""
@@ -39,13 +36,14 @@ def preprocess(dm):
 	dm.pupil = series.blinkreconstruct(dm.ptrace_target)
 	dm.pupil.depth = 3000
 	dm.pupil = series.smooth(dm.pupil, winlen=51)
-	dm.pupil = series.baseline(dm.pupil, dm.pupil, 0, 1)
+	dm.pupil = series.baseline(dm.pupil, dm.pupil, 0, 1, method='divisive')
 	# Remove all trials where pupil size has unrealistic values
 	dm.pupilmax = FloatColumn
 	dm.pupilmin = FloatColumn
 	for row in dm:
-		row.pupilmin = min(row.pupil)
-		row.pupilmax = max(row.pupil)
+		row.pupilmin = np.nanmin(row.pupil)
+		row.pupilmax = np.nanmax(row.pupil)
+		print(row.pupilmin, row.pupilmax)
 	plot.new()
 	# plot.histogram(dm.pupilmin, bins=100, range=(0, 5), color=red[1], alpha=.5)
 	# plot.histogram(dm.pupilmax, bins=100, range=(0, 5), color=green[1], alpha=.5)
@@ -191,8 +189,8 @@ def brightness_plot(dm, subplot=False):
 	plt.legend(frameon=False)
 	if not subplot:
 		plot.save('brightness_plot')
-		
-		
+
+
 def valence_plot(dm, subplot=False):
 
 	"""
@@ -219,14 +217,14 @@ def valence_plot(dm, subplot=False):
 	plt.legend(frameon=False)
 	if not subplot:
 		plot.save('valence_plot')
-		
-		
+
+
 def intensity_plot(dm, subplot=False):
-	
+
 	if not subplot:
 		plot.new()
 	dm = dm.type != 'animal'
-	dm.intensity = np.abs(dm.valence - 3)			
+	dm.intensity = np.abs(dm.valence - 3)
 	dm_lo, dm_med, dm_hi = operations.bin_split(dm.intensity, 3)
 	plot.trace(dm_lo.pupil, color=blue[1],
 		label='Low intensity (N=%d)' % len(dm_lo))
@@ -239,7 +237,7 @@ def intensity_plot(dm, subplot=False):
 	plt.ylabel('Proportional pupil-size change')
 	plt.legend(frameon=False)
 	if not subplot:
-		plot.save('intensity_plot')	
+		plot.save('intensity_plot')
 
 
 def subject_diff_traces(dm):
@@ -335,7 +333,7 @@ def word_summary(dm, save=True):
 	for i, w in enumerate(dm.word.unique):
 		_dm = dm.word == w
 		sm.word[i] = w
-		if EXP == 'control':			
+		if EXP == 'control':
 			sm.type[i] = (dm.word == w).category[0]
 		else:
 			sm.type[i] = (dm.word == w).type[0]
@@ -348,7 +346,7 @@ def word_summary(dm, save=True):
 		plot.new(size=(4,3))
 	dx = 0
 	for color, type_ in ((orange[1], 'light'), (blue[1],'dark')):
-		if EXP == 'control':			
+		if EXP == 'control':
 			type_ = 'positive'  if type_ == 'light' else 'negative'
 		sm_ = sm.type == type_
 		x = np.arange(len(sm_))
@@ -393,9 +391,9 @@ def valence_summary(dm):
 		sm.word[i] = w
 		sm.valence[i] = _dm[0].valence
 		sm.pupil_win[i], sm.pupil_win_se[i] = size_se(_dm, 1500, 3000)
-		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)		
+		sm.pupil_full[i], sm.pupil_full_se[i] = size_se(_dm)
 	sm.intensity = np.abs(sm.valence-3)
-	sm = operations.sort(sm, by=sm.intensity)	
+	sm = operations.sort(sm, by=sm.intensity)
 	print(sm)
 	plt.plot(sm.valence, sm.pupil_full, 'o')
 	plt.show()
