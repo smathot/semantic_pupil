@@ -1,6 +1,6 @@
 # Experimental resources for the study "Semantic Pupil"
 
-Copyright 2015-2017 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
+Copyright 2015-2023 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
 
 - <s.mathot@cogsci.nl>
 - <http://www.cogsci.nl/smathot>
@@ -18,7 +18,7 @@ Copyright 2015-2017 Sebastiaan Mathôt, Kristof Strijkers, Jonathan Grainger
 
 This repository contains materials to accompany the following manuscript:
 
-Mathôt, S., Strijkers, K., & Grainger, J. (in press). Pupillary responses to words that convey a sense of brightness or darkness. *Psychological Science*.
+Mathôt, S., Strijkers, K., & Grainger, J. (2017). Pupillary responses to words that convey a sense of brightness or darkness. *Psychological Science*. <https://doi.org/10.1177/0956797617702699>
 
 
 # Running the experiments
